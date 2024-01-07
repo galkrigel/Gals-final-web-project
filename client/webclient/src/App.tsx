@@ -1,10 +1,10 @@
 
 import './App.css';
-import HomePage from './pages/HomePage';
+import Properties from './pages/Properties/Properties';
 
 const App = () => {
   return (
-    <HomePage />
+    <Properties />
   );
 }
 

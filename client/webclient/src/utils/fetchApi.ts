@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-export const baseUrl = 'https://bayut.p.rapidapi.com';
+// TODO define base url
+export const baseUrl = '';
 
 export type TApiResponse = {
     status: Number;
@@ -20,16 +21,16 @@ export const useApiGet = (url: string): TApiResponse => {
     const getAPIData = async () => {
         setLoading(true);
         try {
-            const apiResponse = await fetch(`${baseUrl}${url}`, {
+            const apiResponse = await fetch(`${url}`, {
                 method: 'GET',
                 headers: {
-                    'X-RapidAPI-Key': '4570107fdamsh7793587a36b75b5p189dcajsnf2ab4e91dde5',
-                    'X-RapidAPI-Host': 'bayut.p.rapidapi.com'
+                    'APIkey': '673ff2cfe10c50bdfb1f296a5caf83f6',
+                    'Accept': 'application/json'
                 }
             });
             const json = await apiResponse.json();
             setStatus(apiResponse.status);
-            setStatusText(apiResponse.statusText);
+            setStatusText(json.status.msg);
             setData(json);
         } catch (error) {
             setError(error);
