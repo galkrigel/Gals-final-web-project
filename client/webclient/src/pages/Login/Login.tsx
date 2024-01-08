@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import styles from './Login.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { changeUserId } from '../../store/UserIdSlice';
+import { login } from '../../store/UserIdSlice';
 import { TLoginData } from '../../types/TLoginData';
 
 
@@ -29,8 +29,23 @@ const LoginForm = () => {
     const dispatch = useDispatch();
 
     const onSubmit = (data: TLoginData) => {
-        console.log('Login successful', data);
-        dispatch(changeUserId(data.email));
+        try {
+            fetch('http://localhost:3001/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: data.email,
+                    password: data.password
+                }),
+                headers: { "Content-Type": "application/json" }
+            }).then(function (response) {
+                return response.json()
+            }).then(function (body) {
+                console.log('Login successful', body);
+                dispatch(login(body));
+            });
+        } catch (err: unknown) {
+            console.log("error in login: " + err?.toString())
+        }
     };
 
     return (
@@ -82,7 +97,7 @@ const LoginForm = () => {
                     sx={{ mt: 2 }}
                 />
                 <FormControlLabel
-                    control={<Checkbox {...register('rememberMe')} color="primary" />}
+                    control={<Checkbox {...register} color="primary" />}
                     label="Remember Me"
                     sx={{ mt: 1, textAlign: 'left' }}
                 />

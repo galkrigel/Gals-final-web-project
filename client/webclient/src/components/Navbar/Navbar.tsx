@@ -14,6 +14,9 @@ import Menu from '@mui/material/Menu';
 import { Link, NavLink } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/UserIdSlice';
+
 
 export default function Navbar() {
 
@@ -26,10 +29,15 @@ export default function Navbar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        handleCloseUserMenu();
+        dispatch(logout());
+    };
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -39,7 +47,7 @@ export default function Navbar() {
                     {/* TODO remove later */}
                     <Link to="/">Home</Link>
                     <Link to="/login">About</Link>
-                    
+
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -63,21 +71,16 @@ export default function Navbar() {
                             onClose={handleCloseUserMenu}
                         >
 
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem onClick={handleLogout}>
                                 <Typography textAlign="center">logout</Typography>
                             </MenuItem>
                             <MenuItem onClick={handleCloseUserMenu}>
                                 <Typography textAlign="center">edit</Typography>
                             </MenuItem>
-
                         </Menu>
                     </Box>
                 </Toolbar>
-
-
             </AppBar>
-
-
         </Box>
     );
 }

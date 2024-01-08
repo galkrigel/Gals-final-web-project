@@ -1,19 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TLoginData } from "../types/TLoginData";
+import { TRegisterData } from "../types/TRegisterData";
+
 
 export const userIdSlice = createSlice({
     name: 'userId',
     initialState: '',
     reducers: {
-        changeUserId: (state: string, action: PayloadAction<string>) => {
-            return action.payload;
+        login: (state: string, action: PayloadAction<TLoginData>) => {
+            localStorage.setItem('user', JSON.stringify(action.payload));
+            return action.payload.email ?? action.payload.accessToken;
         },
-        resetUserId: (state: string, action: PayloadAction<string>) => {
+        logout: (state: string) => {
+            localStorage.removeItem('user');
             return '';
         },
+        register: (state: string, action: PayloadAction<TRegisterData>)=> {
+
+        }
     },
 });
 
-export const { changeUserId, resetUserId } =
+export const { login, logout } =
     userIdSlice.actions;
 
 export default userIdSlice.reducer;

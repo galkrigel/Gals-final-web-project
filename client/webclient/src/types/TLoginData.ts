@@ -1,5 +1,6 @@
 export type TLoginData= {
-    email: string,
-    password: string,
-    rememberMe: boolean
+    email?: string,
+    password?: string,
+    _id?: string
+    accessToken: string
 }
