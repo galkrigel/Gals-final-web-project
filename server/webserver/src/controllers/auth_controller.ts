@@ -40,7 +40,8 @@ const login = async (req: Request, res: Response) => {
         }
 
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
-        return res.status(200).send({ 'accessToken': token });
+        console.log("email:" +email);
+        return res.status(200).send({ 'accessToken': token , 'email': email});
     } catch (err) {
         return res.status(400).send("error missing email or password");
     }

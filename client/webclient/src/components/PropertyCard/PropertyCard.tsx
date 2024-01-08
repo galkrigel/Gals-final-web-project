@@ -7,13 +7,18 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import styles from './PropertyCard.module.css';
+import { useNavigate } from 'react-router-dom';
+
 
 interface Props {
     property: TProperty;
 }
 
 const PropertyCard = (props: Props) => {
+    const navigate = useNavigate();
 
+    const handlePropertyClick = () => {
+    }
     return (
         <Card sx={{ maxWidth: 345 }} className={styles.card}>
             <CardActionArea onClick={() => { }}>

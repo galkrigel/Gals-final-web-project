@@ -12,11 +12,12 @@ export const userIdSlice = createSlice({
             return action.payload.email ?? action.payload.accessToken;
         },
         logout: (state: string) => {
-            localStorage.removeItem('user');
+            //localStorage.removeItem('user');
             return '';
         },
         register: (state: string, action: PayloadAction<TRegisterData>)=> {
-
+            localStorage.setItem('user', JSON.stringify(action.payload));
+            return action.payload.email;
         }
     },
 });

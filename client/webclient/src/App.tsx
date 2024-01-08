@@ -6,19 +6,18 @@ import Properties from './pages/Properties/Properties';
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Routes } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { Routers } from './enums/routers';
+import { Property } from './pages/Property/Property';
+import { TProperty } from './types/TProperty';
 
 const App = () => {
   return (
 
     <div>
-      {/* <nav>
-        <Link to="/">Home</Link>
-        <Link to="/login">About</Link>
-      </nav> */}
-      <Navbar/>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Properties />} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route path={Routers.Properties} element={<Properties />} />
+        <Route path={Routers.Login} element={<LoginForm />} />
       </Routes>
     </div>
   );

@@ -20,7 +20,8 @@
         "name": "Abu Dhabi",
         "coverPhoto": {
             "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/170790211/7f71a54661bf4a389ccd3e38c766c5d6"
-        }
+        },
+        "comments": []
     },
     {
         "id": 1,
@@ -66,7 +67,17 @@
         "name": "Abu Dhabi",
         "coverPhoto": {
             "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/170790211/7f71a54661bf4a389ccd3e38c766c5d6"
-        }
+        },
+        "comments": [
+            {
+                "userId": "123456",
+                "comment": "this is a demo of comment"
+            },
+            {
+                "userId": "123456",
+                "comment": "this is a demo of comment 2"
+            }
+        ]
     },
     {
         "id": 3,

@@ -1,3 +1,5 @@
+import { TComment } from "./TComment"
+
 export type TProperty = {
     id: number,
     ownerID: number,
@@ -19,6 +21,7 @@ export type TProperty = {
     name: string,
     coverPhoto: {
         url: string
-    }
+    },
+    comments?: TComment[]
 }
 

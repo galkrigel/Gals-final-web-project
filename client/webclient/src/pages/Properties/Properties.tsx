@@ -22,9 +22,7 @@ const Properties = () => {
     useEffect(() => {
         const loadedData = JSON.stringify(propertiesJson);
         const json = JSON.parse(loadedData);
-        console.log("jsss" + json);
         setData(json);
-        console.log("dd" + data)
     }, []);
 
 
@@ -32,15 +30,14 @@ const Properties = () => {
     return (
         !data ?
             <LoadingSpinner /> :
-       
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} >
-                    {data?.map((item: TProperty, i: number) => (
-                        <Grid item xs={2} sm={4} md={4} key={i} >
-                            <PropertyCard property={item} key={i} />
-                        </Grid>
-                    ))}
-                </Grid>
-      
+            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} >
+                {data?.map((item: TProperty, i: number) => (
+                    <Grid item xs={2} sm={4} md={4} key={i} >
+                        <PropertyCard property={item} key={i} />
+                    </Grid>
+                ))}
+            </Grid>
+
 
 
     )

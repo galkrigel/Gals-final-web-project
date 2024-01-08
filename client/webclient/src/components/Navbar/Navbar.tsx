@@ -14,11 +14,16 @@ import Menu from '@mui/material/Menu';
 import { Link, NavLink } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/UserIdSlice';
+import { RootState } from '../../store/store';
+import { useNavigate } from 'react-router-dom';
+import { Routers } from '../../enums/routers';
+
 
 
 export default function Navbar() {
+    const navigate = useNavigate();
 
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -34,7 +39,11 @@ export default function Navbar() {
     const handleLogout = () => {
         handleCloseUserMenu();
         dispatch(logout());
+        navigate(Routers.Login);
     };
+    const userId: string = useSelector(
+        (state: RootState) => state.userId
+    );
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -42,7 +51,10 @@ export default function Navbar() {
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Real estate site
+
+                        <p>user id: {userId}</p>
                     </Typography>
+
 
                     {/* TODO remove later */}
                     <Link to="/">Home</Link>

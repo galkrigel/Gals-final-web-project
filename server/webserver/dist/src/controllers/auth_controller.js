@@ -51,7 +51,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(401).send("email or password incorrect");
         }
         const token = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
-        return res.status(200).send({ 'accessToken': token });
+        console.log("email:" + email);
+        return res.status(200).send({ 'accessToken': token, 'email': email });
     }
     catch (err) {
         return res.status(400).send("error missing email or password");

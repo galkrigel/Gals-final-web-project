@@ -12,7 +12,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { login } from '../../store/UserIdSlice';
 import { TLoginData } from '../../types/TLoginData';
+import { useState } from 'react';
+import { TRegisterData } from '../../types/TRegisterData';
+import { useNavigate } from 'react-router-dom';
+import { Routers } from '../../enums/routers';
 
+enum Action {
+    Login,
+    Register
+}
 
 const LoginForm = () => {
     const {
@@ -21,16 +29,31 @@ const LoginForm = () => {
         formState: { errors },
     } = useForm<TLoginData>();
 
+    const [action, setAction] = useState<Action>(Action.Login)
+    const navigate = useNavigate();
 
+    const toggleAction = () => {
+        if (action == Action.Login)
+            setAction(Action.Register)
+        else
+            setAction(Action.Login)
+    }
     const userId: string = useSelector(
         (state: RootState) => state.userId
     );
 
     const dispatch = useDispatch();
 
-    const onSubmit = (data: TLoginData) => {
+    const onSubmit = (data: TLoginData | TRegisterData) => {
+        console.log("data: " + data);
+        let urlRoute;
+        if (action == Action.Login)
+            urlRoute = 'login';
+        else
+            urlRoute = 'register';
+
         try {
-            fetch('http://localhost:3001/auth/login', {
+            fetch(`http://localhost:3001/auth/${urlRoute}`, {
                 method: 'POST',
                 body: JSON.stringify({
                     email: data.email,
@@ -40,17 +63,18 @@ const LoginForm = () => {
             }).then(function (response) {
                 return response.json()
             }).then(function (body) {
-                console.log('Login successful', body);
+                console.log('action successful', body);
                 dispatch(login(body));
+                navigate(Routers.Properties);
+
             });
         } catch (err: unknown) {
-            console.log("error in login: " + err?.toString())
+            console.log("error in action: " + err?.toString())
         }
     };
 
     return (
         <div className={styles.login}>
-            <p>user id: {userId}</p>
             <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
@@ -63,9 +87,13 @@ const LoginForm = () => {
                     backgroundColor: 'white',
                 }}
             >
-                <Typography variant="h5" component="div" sx={{ mb: 2 }}>
-                    Login Form
-                </Typography>
+                {action == Action.Login ?
+                    <Typography variant="h5" component="div" sx={{ mb: 2 }}>
+                        Login Form
+                    </Typography>
+                    : <Typography variant="h5" component="div" sx={{ mb: 2 }}>
+                        Registeration Form
+                    </Typography>}
                 <TextField
                     fullWidth
                     label="email"
@@ -101,18 +129,25 @@ const LoginForm = () => {
                     label="Remember Me"
                     sx={{ mt: 1, textAlign: 'left' }}
                 />
-                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                    Login
-                </Button>
-                <Box sx={{ mt: 2, textAlign: 'center' }}>
-                    <Link href="#" variant="body2">
-                        Forgot Password?
-                    </Link>
-                    <Box mt={1}>
-                        <Link href="#" variant="body2">
+                {action == Action.Login ?
+                    <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                        Login
+                    </Button> :
+                    <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                        Register
+                    </Button>
+                }
+
+                <Box mt={1} sx={{ mt: 2, textAlign: 'center' }}>
+                    {action == Action.Login
+                        ?
+                        <Link href="#" variant="body2" onClick={toggleAction}>
                             Don't have an account? Sign Up
                         </Link>
-                    </Box>
+                        :
+                        <Link href="#" variant="body2" onClick={toggleAction}>
+                            Already have an account? Sign in
+                        </Link>}
                 </Box>
             </Box>
         </div>
