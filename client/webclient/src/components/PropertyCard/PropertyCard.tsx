@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import styles from './PropertyCard.module.css';
 
 interface Props {
     property: TProperty;
@@ -14,26 +15,26 @@ interface Props {
 const PropertyCard = (props: Props) => {
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea onClick={()=>{}}>
+        <Card sx={{ maxWidth: 345 }} className={styles.card}>
+            <CardActionArea onClick={() => { }}>
                 <CardMedia
                     component="img"
                     height="140"
-                    image=''
+                    image={props.property.coverPhoto.url}
                     alt=""
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                    {props.property.summary.propclass}
+                        {props.property.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        country: {props.property.address.country}
+                        contact: {props.property.contactName}, {props.property.phoneNumber.mobile}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                    rooms: {props.property.building.rooms.beds}, size: {props.property.building.size.universalsize}
+                        rooms: {props.property.rooms}, size: {props.property.area}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                    built at: {props.property.summary.yearbuilt}
+                        price: {props.property.price}$
                     </Typography>
                 </CardContent>
             </CardActionArea>
