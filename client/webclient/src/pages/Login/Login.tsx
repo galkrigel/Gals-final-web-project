@@ -15,8 +15,11 @@ import { TLoginData } from '../../types/TLoginData';
 import { TRegisterData } from '../../types/TRegisterData';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../../enums/routers';
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 const Login = () => {
+
     const {
         register,
         handleSubmit,
@@ -31,7 +34,7 @@ const Login = () => {
 
     const dispatch = useDispatch();
 
-    const onSubmit = (data: TLoginData | TRegisterData) => {
+    const onSubmit = (data: TLoginData) => {
         try {
             fetch(`http://localhost:3001/auth/login`, {
                 method: 'POST',
@@ -43,7 +46,13 @@ const Login = () => {
             }).then(function (response) {
                 return response.json()
             }).then(function (body) {
-                console.log('action successful', body);
+                console.log('login successful', body);
+                const accessToken = body.accessToken;
+                cookies.set('access_token', accessToken, {
+                    path: '/',
+                    httpOnly: true,
+                    // secure: true // Set to true if using HTTPS
+                });
                 dispatch(login(body));
                 navigate(Routers.Properties);
 
