@@ -31,6 +31,7 @@ export default function AddPropertyBasicInfoForm(props: Props) {
           />
         </Grid>
         <Grid item xs={12}>
+          {/*  TODO change to radio button */}
           <TextField
             required
             onChange={(event) => props.changePurpose(event.target.value)}

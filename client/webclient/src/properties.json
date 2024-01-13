@@ -3,7 +3,7 @@
         "id": 1753434,
         "ownerID": 792123,
         "purpose": "for-rent",
-        "price": 7700,
+        "price": 6000,
         "product": "superhot",
         "productLabel": "default",
         "rentFrequency": "monthly",
@@ -50,7 +50,7 @@
         "id": 2,
         "ownerID": 792123,
         "purpose": "for-rent",
-        "price": 7700,
+        "price": 9000,
         "product": "superhot",
         "productLabel": "default",
         "rentFrequency": "monthly",
@@ -83,7 +83,30 @@
         "id": 3,
         "ownerID": 792123,
         "purpose": "for-rent",
-        "price": 7700,
+        "price": 4000,
+        "product": "superhot",
+        "productLabel": "default",
+        "rentFrequency": "monthly",
+        "title": "Big offer !!! . . Amazing and cosy 1 Be",
+        "rooms": 1,
+        "baths": 2,
+        "area": 91.69530048,
+        "phoneNumber": {
+            "mobile": "+971589159379",
+            "phone": "+97143388004",
+            "whatsapp": "971589159379"
+        },
+        "contactName": "Ahsan Zain Eddin",
+        "name": "Abu Dhabi",
+        "coverPhoto": {
+            "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/170790211/7f71a54661bf4a389ccd3e38c766c5d6"
+        }
+    },
+    {
+        "id": 3,
+        "ownerID": 792123,
+        "purpose": "for-rent",
+        "price": 30,
         "product": "superhot",
         "productLabel": "default",
         "rentFrequency": "monthly",
@@ -129,30 +152,7 @@
         "id": 3,
         "ownerID": 792123,
         "purpose": "for-rent",
-        "price": 7700,
-        "product": "superhot",
-        "productLabel": "default",
-        "rentFrequency": "monthly",
-        "title": "Big offer !!! . . Amazing and cosy 1 Be",
-        "rooms": 1,
-        "baths": 2,
-        "area": 91.69530048,
-        "phoneNumber": {
-            "mobile": "+971589159379",
-            "phone": "+97143388004",
-            "whatsapp": "971589159379"
-        },
-        "contactName": "Ahsan Zain Eddin",
-        "name": "Abu Dhabi",
-        "coverPhoto": {
-            "url": "https://bayut-production.s3.eu-central-1.amazonaws.com/image/170790211/7f71a54661bf4a389ccd3e38c766c5d6"
-        }
-    },
-    {
-        "id": 3,
-        "ownerID": 792123,
-        "purpose": "for-rent",
-        "price": 7700,
+        "price": 10000,
         "product": "superhot",
         "productLabel": "default",
         "rentFrequency": "monthly",
