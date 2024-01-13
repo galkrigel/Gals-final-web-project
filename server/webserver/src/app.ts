@@ -7,8 +7,24 @@ import bodyParser from "body-parser";
 import studentRoute from "./routes/student_route";
 import studentPostRoute from "./routes/student_post_route";
 import authRoute from "./routes/auth_route";
+import swaggerUI from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
 
 const initApp = (): Promise<Express> => {
+  const options = {
+    definition: {
+      openapi: "3.0.0",
+      info: {
+        title: "Web Dev 2022 REST API",
+        version: "1.0.0",
+        description: "REST server including authentication using JWT",
+      },
+      servers: [{ url: "http://localhost:3001", },],
+    },
+    apis: ["./src/routes/*.ts"],
+  };
+  const specs = swaggerJsDoc(options);
+
   const corsOptions = {
     origin: 'http://localhost:3000',
   };
@@ -25,6 +41,7 @@ const initApp = (): Promise<Express> => {
       app.use("/student", studentRoute);
       app.use("/studentpost", studentPostRoute);
       app.use("/auth", authRoute);
+      app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
       resolve(app);
     });
   });
