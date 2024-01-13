@@ -5,6 +5,7 @@ import cors from 'cors';
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import studentRoute from "./routes/student_route";
+import propertyRoute from "./routes/property_route";
 import studentPostRoute from "./routes/student_post_route";
 import authRoute from "./routes/auth_route";
 import swaggerUI from "swagger-ui-express";
@@ -40,6 +41,7 @@ const initApp = (): Promise<Express> => {
       app.use(bodyParser.urlencoded({ extended: true }));
       app.use("/student", studentRoute);
       app.use("/studentpost", studentPostRoute);
+      app.use("/property", propertyRoute);
       app.use("/auth", authRoute);
       app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
       resolve(app);

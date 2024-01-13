@@ -59,6 +59,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             user.refreshTokens.push(refreshToken);
         }
         yield user.save();
+        console.log("login access token:" + accessToken);
         return res.status(200).send({
             'accessToken': accessToken,
             'refreshToken': refreshToken

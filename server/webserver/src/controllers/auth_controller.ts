@@ -47,6 +47,7 @@ const login = async (req: Request, res: Response) => {
             user.refreshTokens.push(refreshToken);
         }
         await user.save();
+        console.log("login access token:" +accessToken);
         return res.status(200).send({
             'accessToken': accessToken,
             'refreshToken': refreshToken

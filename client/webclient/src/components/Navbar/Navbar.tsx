@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,6 +36,17 @@ export default function Navbar() {
         dispatch(logout());
         navigate(Routers.Login);
     };
+
+    const handleAddProperty = () => {
+        handleCloseUserMenu();
+        navigate(Routers.EditProfile);
+    };
+
+    const handleEditProfile = () => {
+        handleCloseUserMenu();
+        // TODO implement
+    };
+
     const userId: string = useSelector(
         (state: RootState) => state.userId
     );
@@ -46,11 +57,8 @@ export default function Navbar() {
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Real estate site
-
                         <p>user id: {userId}</p>
                     </Typography>
-
-
                     {/* TODO remove later */}
                     <Link to="/">Home</Link>
                     <Link to="/login">About</Link>
@@ -77,12 +85,14 @@ export default function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-
                             <MenuItem onClick={handleLogout}>
-                                <Typography textAlign="center">logout</Typography>
+                                <Typography textAlign="center">Logout</Typography>
                             </MenuItem>
-                            <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center">edit</Typography>
+                            <MenuItem onClick={handleAddProperty}>
+                                <Typography textAlign="center">Add property</Typography>
+                            </MenuItem>
+                            <MenuItem onClick={handleEditProfile}>
+                                <Typography textAlign="center">Edit profile</Typography>
                             </MenuItem>
                         </Menu>
                     </Box>

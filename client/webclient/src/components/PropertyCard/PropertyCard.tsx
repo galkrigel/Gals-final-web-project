@@ -6,7 +6,6 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box, CardActionArea } from '@mui/material';
 import styles from './PropertyCard.module.css';
-import { useNavigate } from 'react-router-dom';
 
 
 
@@ -15,7 +14,6 @@ interface Props {
 }
 
 const PropertyCard = (props: Props) => {
-    const navigate = useNavigate();
 
     const handlePropertyClick = () => {
     }

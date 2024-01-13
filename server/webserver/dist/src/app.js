@@ -10,11 +10,27 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const student_route_1 = __importDefault(require("./routes/student_route"));
+const property_route_1 = __importDefault(require("./routes/property_route"));
 const student_post_route_1 = __importDefault(require("./routes/student_post_route"));
 const auth_route_1 = __importDefault(require("./routes/auth_route"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const initApp = () => {
+    const options = {
+        definition: {
+            openapi: "3.0.0",
+            info: {
+                title: "Web Dev 2022 REST API",
+                version: "1.0.0",
+                description: "REST server including authentication using JWT",
+            },
+            servers: [{ url: "http://localhost:3001", },],
+        },
+        apis: ["./src/routes/*.ts"],
+    };
+    const specs = (0, swagger_jsdoc_1.default)(options);
     const corsOptions = {
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost:5173',
     };
     const promise = new Promise((resolve) => {
         const db = mongoose_1.default.connection;
@@ -28,7 +44,9 @@ const initApp = () => {
             app.use(body_parser_1.default.urlencoded({ extended: true }));
             app.use("/student", student_route_1.default);
             app.use("/studentpost", student_post_route_1.default);
+            app.use("/property", property_route_1.default);
             app.use("/auth", auth_route_1.default);
+            app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
             resolve(app);
         });
     });

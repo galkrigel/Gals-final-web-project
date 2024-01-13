@@ -1,8 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { TProperty } from "../../types/TProperty";
 import { TComment } from "../../types/TComment";
-import { useParams } from "react-router-dom";
-
 interface Props {
     property: TProperty;
 }
