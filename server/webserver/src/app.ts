@@ -26,7 +26,7 @@ const initApp = (): Promise<Express> => {
   const specs = swaggerJsDoc(options);
 
   const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:5173',
   };
   const promise = new Promise<Express>((resolve) => {
     const db = mongoose.connection;

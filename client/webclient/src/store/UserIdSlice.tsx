@@ -9,7 +9,7 @@ export const userIdSlice = createSlice({
     reducers: {
         login: (state: string, action: PayloadAction<TLoginData>) => {
             localStorage.setItem('user', JSON.stringify(action.payload));
-            return action.payload.email ?? action.payload.accessToken;
+            return action.payload.email ?? "demo@gmail.com";
         },
         logout: (state: string) => {
             //localStorage.removeItem('user');

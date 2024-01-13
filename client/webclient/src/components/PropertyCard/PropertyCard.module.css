@@ -1,5 +1,7 @@
 .card{
-    display: block;
-    width: 30vw;
-    height: 35vw;
+    display: flex;
+    padding: 2vh;;
+    color: aquamarine;
+    background-color: blue;
 }
+
