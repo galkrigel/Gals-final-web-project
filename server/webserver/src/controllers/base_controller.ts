@@ -27,6 +27,9 @@ export class BaseController<ModelType>{
         console.log("getStudentById:" + req.params.id);
         try {
             const student = await this.model.findById(req.params.id);
+            console.log("id: " +req.params.id);
+            console.log("student: " +student)
+
             res.send(student);
         } catch (err) {
             res.status(500).json({ message: err.message });
@@ -44,6 +47,8 @@ export class BaseController<ModelType>{
         }
     }
 
+
+    // TODO Implementttttt
     putById(req: Request, res: Response) {
         res.send("put student by id: " + req.params.id);
     }

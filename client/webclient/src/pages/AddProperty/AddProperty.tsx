@@ -10,7 +10,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AddPropertyBasicInfoForm from '../../components/AddPropertyBasicForm/AddPropertyBasicForm';
 import AddPropertyAdditionalInfoForm from '../../components/AddPropertyAdditionalInfoForm/AddPropertyAdditionalInfoForm';
-import styles from './AddProperty.module.css'
 import { useState } from 'react';
 
 
@@ -87,7 +86,7 @@ export default function AddProperty() {
   };
 
   return (
-    <div className={styles.form}>
+    <div className=''>
       <React.Fragment >
         <CssBaseline />
         <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>

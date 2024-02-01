@@ -4,7 +4,7 @@ import express, { Express } from "express";
 import cors from 'cors';
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import studentRoute from "./routes/student_route";
+import userRoute from "./routes/user_route";
 import propertyRoute from "./routes/property_route";
 import studentPostRoute from "./routes/student_post_route";
 import authRoute from "./routes/auth_route";
@@ -39,7 +39,8 @@ const initApp = (): Promise<Express> => {
       app.use(cors(corsOptions));
       app.use(bodyParser.json());
       app.use(bodyParser.urlencoded({ extended: true }));
-      app.use("/student", studentRoute);
+      //app.use("/student", studentRoute);
+      app.use("/user", userRoute);
       app.use("/studentpost", studentPostRoute);
       app.use("/property", propertyRoute);
       app.use("/auth", authRoute);

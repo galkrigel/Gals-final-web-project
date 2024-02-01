@@ -37,6 +37,8 @@ class BaseController {
             console.log("getStudentById:" + req.params.id);
             try {
                 const student = yield this.model.findById(req.params.id);
+                console.log("id: " + req.params.id);
+                console.log("student: " + student);
                 res.send(student);
             }
             catch (err) {
@@ -57,6 +59,7 @@ class BaseController {
             }
         });
     }
+    // TODO Implementttttt
     putById(req, res) {
         res.send("put student by id: " + req.params.id);
     }

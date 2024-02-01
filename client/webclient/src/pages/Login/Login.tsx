@@ -11,10 +11,24 @@ import styles from './Login.module.css';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/UserIdSlice';
 import { TLoginData } from '../../types/TLoginData';
-// import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../../enums/routers';
+import { useEffect } from 'react';
+import { gapi } from 'gapi-script';
+import { CLIENT_ID } from '../../utils/consts';
+import LoginWithGoogle from '../../components/LoginWithGoogle';
 const Login = () => {
+
+    useEffect(() => {
+        function start() {
+            gapi.client.init({
+                clientId: CLIENT_ID,
+                scope: ""
+            })
+        };
+        gapi.load('client:auth2', start);
+    })
+
 
     const {
         register,
@@ -43,7 +57,7 @@ const Login = () => {
                 return response.json()
             }).then(function (body) {
                 console.log('login successful', body);
-               
+
                 const access = body.accessToken;
                 const refresh = body.refreshToken;
                 const _id = body._id;
@@ -63,6 +77,7 @@ const Login = () => {
     return (
         <div className={styles.login}>
             <Box
+            className={styles.box}
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
                 sx={{
@@ -123,6 +138,8 @@ const Login = () => {
                     </Link>
 
                 </Box>
+                <p></p>
+                <LoginWithGoogle />
             </Box>
         </div>
     );

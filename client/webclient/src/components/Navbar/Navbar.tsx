@@ -66,12 +66,12 @@ export default function Navbar() {
 
     const handleAddProperty = () => {
         handleCloseUserMenu();
-        navigate(Routers.EditProfile);
+        navigate(Routers.AddProperty);
     };
 
     const handleEditProfile = () => {
         handleCloseUserMenu();
-        // TODO implement
+        navigate(Routers.EditProfile);
     };
 
     const handleLogoClick = () => {
