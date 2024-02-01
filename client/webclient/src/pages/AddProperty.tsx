@@ -8,8 +8,8 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import AddPropertyBasicInfoForm from '../../components/AddPropertyBasicForm/AddPropertyBasicForm';
-import AddPropertyAdditionalInfoForm from '../../components/AddPropertyAdditionalInfoForm/AddPropertyAdditionalInfoForm';
+import AddPropertyBasicInfoForm from '../components/AddPropertyBasicForm';
+import AddPropertyAdditionalInfoForm from '../components/AddPropertyAdditionalInfoForm';
 import { useState } from 'react';
 
 

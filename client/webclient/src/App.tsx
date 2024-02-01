@@ -1,13 +1,13 @@
 
 import './App.css';
-import Navbar from './components/Navbar/Navbar';
-import Login from './pages/Login/Login';
-import Properties from './pages/Properties/Properties';
+import Navbar from './components/Navbar';
+import Login from './pages/Login';
+import Properties from './pages/Properties';
 import { Route, Routes } from 'react-router-dom';
 import { Routers } from './enums/routers';
-import AddProperty from './pages/AddProperty/AddProperty';
-import Register from './pages/Register/Register';
-import EditProfile from './pages/Login/EditProfile/EditProfile';
+import AddProperty from './pages/AddProperty';
+import Register from './pages/Register';
+import EditProfile from './pages/EditProfile';
 
 const App = () => {
   return (

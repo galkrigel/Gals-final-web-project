@@ -94,7 +94,33 @@ export default function EditProfile() {
                                 />
                             </Grid>
 
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    // onChange={(event) => props.changeCountry(event.target.value)}
+                                    id="first name"
+                                    name="first name"
+                                    label="first name"
+                                    fullWidth
+                                    value={userProfile?.firstName ?? ''}
+                                    variant="standard"
+                                />
+                            </Grid>
 
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    //onChange={(event) => props.changeCity(event.target.value)}
+                                    id="second name"
+                                    name="second name"
+                                    label="second name"
+                                    fullWidth
+
+                                    value={userProfile?.secondName ?? ''}
+
+                                    variant="standard"
+                                />
+                            </Grid>
                         </Grid>
                     </Paper>
                 </Container>

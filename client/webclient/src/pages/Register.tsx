@@ -1,4 +1,4 @@
-//import {useForm } from 'react-hook-form';
+
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,46 +7,26 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useForm } from 'react-hook-form';
-import styles from './Login.module.css';
-import { useDispatch } from 'react-redux';
-import { login } from '../../store/UserIdSlice';
-import { TLoginData } from '../../types/TLoginData';
 import { useNavigate } from 'react-router-dom';
-import { Routers } from '../../enums/routers';
-import { useEffect } from 'react';
-import { gapi } from 'gapi-script';
-import { CLIENT_ID } from '../../utils/consts';
-import LoginWithGoogle from '../../components/LoginWithGoogle';
-const Login = () => {
+import { Routers } from '../enums/routers';
+import styles from '../css/Register.module.css';
 
-    useEffect(() => {
-        function start() {
-            gapi.client.init({
-                clientId: CLIENT_ID,
-                scope: ""
-            })
-        };
-        gapi.load('client:auth2', start);
-    })
 
+
+const Register = () => {
+    // const { watch } = useForm();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<TLoginData>();
+    } = useForm();
 
     const navigate = useNavigate();
 
-    const moveToRegisterPage = () => {
-        navigate(Routers.Register);
-    }
-
-    const dispatch = useDispatch();
-
     const onSubmit = (data: any) => {
         try {
-            fetch(`http://localhost:3001/auth/login`, {
+            fetch(`http://localhost:3001/auth/register`, {
                 method: 'POST',
                 body: JSON.stringify({
                     email: data.email,
@@ -56,28 +36,21 @@ const Login = () => {
             }).then(function (response) {
                 return response.json()
             }).then(function (body) {
-                console.log('login successful', body);
-
-                const access = body.accessToken;
-                const refresh = body.refreshToken;
-                const _id = body._id;
-
-                localStorage.setItem("accessToken", access);
-                localStorage.setItem("refreshToken", refresh);
-                localStorage.setItem("_id", _id);
-
-                dispatch(login(body));
-                navigate(Routers.Properties);
+                console.log('register successful', body);
+                navigate(Routers.Login);
             });
         } catch (err: unknown) {
-            console.log("error in action: " + err?.toString())
+            console.log("error in register: " + err?.toString())
         }
     };
 
+    const moveToLoginPage = () => {
+        navigate(Routers.Login);
+    }
+
     return (
-        <div className={styles.login}>
+        <div className={styles.register}>
             <Box
-            className={styles.box}
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
                 sx={{
@@ -89,25 +62,31 @@ const Login = () => {
                     backgroundColor: 'white',
                 }}
             >
-
                 <Typography variant="h5" component="div" sx={{ mb: 2 }}>
-                    Login Form
+                    Registeration Form
                 </Typography>
-
                 <TextField
                     fullWidth
                     label="email"
                     {...register('email', {
                         required: 'email is required',
-                        minLength: {
-                            value: 3,
-                            message: 'email must be at least 3 characters',
-                        },
+                        pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
                     })}
                     error={Boolean(errors.email)}
                     // helperText={errors.username?.message}
                     margin="normal"
                 />
+                {/* <TextField
+                    fullWidth
+                    label="username"
+                    {...register('username', {
+                        required: 'username is required',
+                        minLength: 3
+                    })}
+                    error={Boolean(errors.username)}
+                    // helperText={errors.username?.message}
+                    margin="normal"
+                /> */}
                 <TextField
                     fullWidth
                     type="password"
@@ -124,25 +103,40 @@ const Login = () => {
                     margin="normal"
                     sx={{ mt: 2 }}
                 />
+                {/* <TextField
+                    fullWidth
+                    type="password"
+                    label="confirm password"
+                    {...register('confirm_password', {
+                        required: 'true',
+                        validate: (val: string) => {
+                            if (watch('password') != val) {
+                                return "Your passwords do no match";
+                            }
+                        },
+                    })}
+                    error={Boolean(errors.confirm_password)}
+                    //helperText={errors.password?.message}
+                    margin="normal"
+                    sx={{ mt: 2 }}
+                /> */}
                 <FormControlLabel
                     control={<Checkbox {...register} color="primary" />}
                     label="Remember Me"
                     sx={{ mt: 1, textAlign: 'left' }}
                 />
                 <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                    Login
+                    Register
                 </Button>
                 <Box mt={1} sx={{ mt: 2, textAlign: 'center' }}>
-                    <Link href="#" variant="body2" onClick={moveToRegisterPage}>
-                        Don't have an account? Sign Up
-                    </Link>
 
+                    <Link href="#" variant="body2" onClick={moveToLoginPage}>
+                        Already have an account? Sign in
+                    </Link>
                 </Box>
-                <p></p>
-                <LoginWithGoogle />
             </Box>
         </div>
     );
 };
 
-export default Login;
+export default Register;

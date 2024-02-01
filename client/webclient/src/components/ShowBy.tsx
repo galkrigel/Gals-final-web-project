@@ -2,8 +2,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { TProperty } from '../../types/TProperty';
-import { ShowBy as ShowByEnum } from '../../enums/showBy';
+import { TProperty } from '../types/TProperty';
+import { ShowBy as ShowByEnum } from '../enums/showBy';
 
 const values = [ShowByEnum.None, ShowByEnum.PriceHighToLow, ShowByEnum.PriceLowToHigh];
 

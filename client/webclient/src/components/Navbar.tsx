@@ -10,10 +10,10 @@ import { Link } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../store/UserIdSlice';
-import { RootState } from '../../store/store';
+import { logout } from '../store/UserIdSlice';
+import { RootState } from '../store/store';
 import { useNavigate } from 'react-router-dom';
-import { Routers } from '../../enums/routers';
+import { Routers } from '../enums/routers';
 
 
 

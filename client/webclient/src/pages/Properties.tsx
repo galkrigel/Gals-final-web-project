@@ -1,9 +1,9 @@
-import PropertyCard from "../../components/PropertyCard/PropertyCard";
-import { TProperty } from "../../types/TProperty";
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import PropertyCard from "../components/PropertyCard";
+import { TProperty } from "../types/TProperty";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { useEffect, useState } from "react";
-import propertiesJson from '../../properties.json';
-import ShowBy from "../../components/ShowBy/ShowBy";
+import propertiesJson from '../properties.json';
+import ShowBy from "../components/ShowBy";
 
 const Properties = () => {
     const [data, setData] = useState<TProperty[]>([]);

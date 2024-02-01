@@ -1,11 +1,11 @@
 
-import { TProperty } from '../../types/TProperty';
+import { TProperty } from '../types/TProperty';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box, Button, CardActionArea } from '@mui/material';
-import styles from './PropertyCard.module.css';
+import styles from '../css/PropertyCard.module.css';
 
 
 
