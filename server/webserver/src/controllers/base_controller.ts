@@ -27,8 +27,8 @@ export class BaseController<ModelType>{
         console.log("getStudentById:" + req.params.id);
         try {
             const student = await this.model.findById(req.params.id);
-            console.log("id: " +req.params.id);
-            console.log("student: " +student)
+            console.log("id: " + req.params.id);
+            console.log("student: " + student)
 
             res.send(student);
         } catch (err) {
@@ -49,12 +49,28 @@ export class BaseController<ModelType>{
 
 
     // TODO Implementttttt
-    putById(req: Request, res: Response) {
-        res.send("put student by id: " + req.params.id);
+    async putById(req: Request, res: Response) {
+        console.log("put by id:" + req.params.id);
+        try {
+            const obj = await this.model.findByIdAndUpdate(req.params.id, req.body);
+            res.status(201).send(obj);
+        } catch (err) {
+            console.log("put error: " + err);
+            res.status(406).send("fail: " + err.message);
+        }
+        //res.send("put student by id: " + req.params.id);
     }
 
-    deleteById(req: Request, res: Response) {
-        res.send("delete student by id: " + req.params.id);
+    //todo check
+    async deleteById(req: Request, res: Response) {
+        console.log("delete by id :" + req.params.id);
+        try {
+            const obj = await this.model.findByIdAndDelete(req.params.id);
+            res.status(201).send(obj);
+        } catch (err) {
+            console.log("delete error: " + err);
+            res.status(406).send("fail: " + err.message);
+        }
     }
 }
 

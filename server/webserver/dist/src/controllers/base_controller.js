@@ -61,10 +61,32 @@ class BaseController {
     }
     // TODO Implementttttt
     putById(req, res) {
-        res.send("put student by id: " + req.params.id);
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("put by id:" + req.params.id);
+            try {
+                const obj = yield this.model.findByIdAndUpdate(req.params.id, req.body);
+                res.status(201).send(obj);
+            }
+            catch (err) {
+                console.log("put error: " + err);
+                res.status(406).send("fail: " + err.message);
+            }
+            //res.send("put student by id: " + req.params.id);
+        });
     }
+    //todo check
     deleteById(req, res) {
-        res.send("delete student by id: " + req.params.id);
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("delete by id :" + req.params.id);
+            try {
+                const obj = yield this.model.findByIdAndDelete(req.params.id);
+                res.status(201).send(obj);
+            }
+            catch (err) {
+                console.log("delete error: " + err);
+                res.status(406).send("fail: " + err.message);
+            }
+        });
     }
 }
 exports.BaseController = BaseController;

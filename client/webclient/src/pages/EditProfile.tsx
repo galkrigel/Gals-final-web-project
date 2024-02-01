@@ -6,13 +6,25 @@ import { useState, useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import { TUser } from '../types/TUser';
+import { colors } from '@mui/material';
+import ProfilePicture from '../components/ProfilePicture';
+
+
+const SUCCESS_MESSAGE = "User profile edited succesfully!";
+const ERROR_MESSAGE = "There was a problem with edit user profile. ";
+const NO_CHANGES_MESSAGE = "You did not do any changes, so can not edit."
 
 
 export default function EditProfile() {
     const token = localStorage.getItem("refreshToken") ?? '';
     const _id = localStorage.getItem("_id") ?? '';
 
-    const [userProfile, setUserProfile] = useState<any>(null);
+    const [userProfile, setUserProfile] = useState<TUser>({ _id: '' });
+    const [editedProfile, setEditedProfile] = useState<TUser>({ _id: '' });
+    const [message, setMessage] = useState<{ message: string, color: any }>({ message: '', color: '' });
 
 
     useEffect(() => {
@@ -32,7 +44,7 @@ export default function EditProfile() {
             }).then(function (body) {
                 console.log('getting user profile successful', body);
                 setUserProfile(body);
-
+                setEditedProfile(body);
             });
         } catch (err: unknown) {
             console.log("error in action get user profile: " + err?.toString())
@@ -41,21 +53,38 @@ export default function EditProfile() {
 
     const onSave = () => {
         try {
-            fetch(`http://localhost:3001/student/${_id}`, {
+            fetch(`http://localhost:3001/user/${_id}`, {
                 method: 'PUT',
+                body: JSON.stringify({
+                    email: editedProfile.email ?? userProfile ?? '',
+                    firstName: editedProfile.firstName ?? userProfile.firstName ?? '',
+                    secondName: editedProfile.secondName ?? userProfile.secondName ?? '',
+                }),
                 headers: {
                     "Content-Type": "application/json",
                     "authorization": `Bearer ${token}`
                 }
             }).then(function (response) {
-                return response.text()
+                return response.json();
             }).then(function (body) {
+                setMessage({ message: SUCCESS_MESSAGE, color: colors.green[400] });
                 console.log('edit user profile successful', body);
             });
         } catch (err: unknown) {
+            setMessage({ message: ERROR_MESSAGE, color: colors.red[400] });
             console.log("error in action edit: " + err?.toString())
         }
     };
+
+    const onButtonClick = () => {
+        if (editedProfile.email != userProfile.email ||
+            editedProfile.firstName != userProfile.firstName ||
+            editedProfile.secondName != userProfile.secondName)
+            onSave();
+        else
+            setMessage({ message: NO_CHANGES_MESSAGE, color: colors.red[400] });
+    }
+
     return (
         <div >
             <React.Fragment>
@@ -65,6 +94,9 @@ export default function EditProfile() {
                         <Typography component="h1" variant="h4" align="center">
                             User's details
                         </Typography>
+                        <p></p>
+                        <ProfilePicture letter={userProfile.email?.toUpperCase()[0] ?? ''} image={userProfile.image} />
+
                         <Grid container spacing={3}>
 
                             <Grid item xs={12}></Grid>
@@ -88,21 +120,22 @@ export default function EditProfile() {
                                     id="email"
                                     name="email"
                                     label="email"
-                                    value={userProfile?.email ?? ''}
+                                    value={editedProfile?.email ?? ''}
                                     fullWidth
                                     variant="standard"
+                                    onChange={(val) => { setEditedProfile({ ...userProfile, email: val.target.value }) }}
                                 />
                             </Grid>
 
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
-                                    // onChange={(event) => props.changeCountry(event.target.value)}
+                                    onChange={(val) => { setEditedProfile({ ...userProfile, firstName: val.target.value }) }}
                                     id="first name"
                                     name="first name"
                                     label="first name"
                                     fullWidth
-                                    value={userProfile?.firstName ?? ''}
+                                    value={editedProfile?.firstName ?? ''}
                                     variant="standard"
                                 />
                             </Grid>
@@ -110,18 +143,35 @@ export default function EditProfile() {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
-                                    //onChange={(event) => props.changeCity(event.target.value)}
+                                    onChange={(val) => { setEditedProfile({ ...userProfile, secondName: val.target.value }) }}
                                     id="second name"
                                     name="second name"
                                     label="second name"
                                     fullWidth
 
-                                    value={userProfile?.secondName ?? ''}
+                                    value={editedProfile?.secondName ?? ''}
 
                                     variant="standard"
                                 />
                             </Grid>
+
                         </Grid>
+                        <React.Fragment>
+
+
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row' }}>
+                                <Typography component="h6" color={message.color} sx={{ mt: 5, ml: 1 }}>
+                                    {message.message}
+                                </Typography>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => { onButtonClick() }}
+                                    sx={{ mt: 3, ml: 1 }}
+                                >
+                                    Save
+                                </Button>
+                            </Box>
+                        </React.Fragment>
                     </Paper>
                 </Container>
             </React.Fragment>

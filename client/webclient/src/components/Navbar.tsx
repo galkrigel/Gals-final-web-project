@@ -14,13 +14,40 @@ import { logout } from '../store/UserIdSlice';
 import { RootState } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../enums/routers';
+import ProfilePicture from './ProfilePicture';
+import { useEffect, useState } from 'react';
 
 
 
 export default function Navbar() {
+    const token = localStorage.getItem("refreshToken") ?? '';
+    const _id = localStorage.getItem("_id") ?? '';
+
     const navigate = useNavigate();
 
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const [avatarInfo, setAvatarInfo] = useState<{ image: string, letter: string }>({ image: '', letter: '' });
+    const onLoad = () => {
+        try {
+            fetch(`http://localhost:3001/user/${_id}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                }
+            }).then(function (response) {
+                return response.json()
+            }).then(function (body) {
+                setAvatarInfo({ image: body.image ?? '', letter: body.email[0]?.toUpperCase() ?? '' });
+            });
+        } catch (err: unknown) {
+            console.log("error in action get user profile: " + err?.toString())
+        }
+    };
+
+    useEffect(() => {
+        onLoad();
+    }, [])
 
     const onLogout = () => {
         const token = localStorage.getItem("refreshToken") ?? '';
@@ -79,8 +106,8 @@ export default function Navbar() {
         const token = localStorage.getItem("refreshToken") ?? '';
         if (token == null || token == '')
             navigate(Routers.Login);
-        else 
-        navigate(Routers.Properties);
+        else
+            navigate(Routers.Properties);
     }
 
     const userId: string = useSelector(
@@ -93,13 +120,13 @@ export default function Navbar() {
                 <Toolbar>
                     <Typography onClick={handleLogoClick} variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Real estate site
-                        <p>user id: {userId}</p>
                     </Typography>
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
+                                <ProfilePicture letter={avatarInfo.letter} image={avatarInfo.image} />
                             </IconButton>
                         </Tooltip>
                         <Menu
