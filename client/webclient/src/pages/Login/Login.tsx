@@ -46,8 +46,12 @@ const Login = () => {
                
                 const access = body.accessToken;
                 const refresh = body.refreshToken;
+                const _id = body._id;
+
                 localStorage.setItem("accessToken", access);
                 localStorage.setItem("refreshToken", refresh);
+                localStorage.setItem("_id", _id);
+
                 dispatch(login(body));
                 navigate(Routers.Properties);
             });

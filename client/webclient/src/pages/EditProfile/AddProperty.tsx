@@ -47,7 +47,7 @@ export default function AddProperty() {
   };
 
   const handleSubmit = () => {
-    console.log("submitted")
+    const token = localStorage.getItem("refreshToken") ?? '';
     try {
       fetch(`http://localhost:3001/property/`, {
         method: 'POST',
@@ -62,7 +62,10 @@ export default function AddProperty() {
           baths: baths,
           area: area
         }),
-        headers: { "Content-Type": "application/json" }
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": `Bearer ${token}`
+      }
       }).then(function (response) {
         console.log("res:" + response)
 

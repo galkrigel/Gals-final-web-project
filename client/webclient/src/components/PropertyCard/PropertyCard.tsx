@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Box, CardActionArea } from '@mui/material';
+import { Box, Button, CardActionArea } from '@mui/material';
 import styles from './PropertyCard.module.css';
 
 
@@ -14,6 +14,7 @@ interface Props {
 }
 
 const PropertyCard = (props: Props) => {
+    const connectedUserId = localStorage.getItem("_id") ?? '';
 
     const handlePropertyClick = () => {
     }
@@ -50,7 +51,7 @@ const PropertyCard = (props: Props) => {
             <CardMedia
                 component="img"
                 sx={{ width: 151 }}
-                image={props.property.coverPhoto.url}
+                image={props.property.coverPhoto?.url ?? ''}
                 alt="property image"
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }} className={styles.box}>
@@ -61,26 +62,23 @@ const PropertyCard = (props: Props) => {
                         </Typography>
                     </CardActionArea>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
-                        contact: {props.property.contactName}, {props.property.phoneNumber.mobile}
+                        contact: {props.property.contactName ?? ''}, {props.property.phoneNumber?.mobile ?? ''}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
-                        rooms: {props.property.rooms}, size: {props.property.area}
+                        rooms: {props.property.rooms ?? ''}, size: {props.property.area ?? ''}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
-                        price: {props.property.price}$
+                        price: {props.property.price ?? ''}$
                     </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                    {/* <IconButton aria-label="previous">
-                {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />} */}
-                    {/* </IconButton>
-              <IconButton aria-label="play/pause">
-                <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-              </IconButton>
-              <IconButton aria-label="next">
-                {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-              </IconButton> */}
+             
                 </Box>
+            </Box>
+            <Box>
+                <Button variant="contained" disabled={connectedUserId != props.property.ownerID.toString()} onClick={()=>{}}>
+                    Edit
+                </Button>
             </Box>
         </Card>
     );

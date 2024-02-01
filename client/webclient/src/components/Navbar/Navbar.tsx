@@ -24,7 +24,7 @@ export default function Navbar() {
 
     const onLogout = () => {
         const token = localStorage.getItem("refreshToken") ?? '';
-        console.log("logout token client:"  +token);
+        console.log("logout token client:" + token);
         try {
             fetch(`http://localhost:3001/auth/logout`, {
                 method: 'GET',
@@ -39,6 +39,7 @@ export default function Navbar() {
 
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
+                localStorage.removeItem("_id");
                 dispatch(logout());
 
                 navigate(Routers.Login);
@@ -73,6 +74,15 @@ export default function Navbar() {
         // TODO implement
     };
 
+    const handleLogoClick = () => {
+        console.log("logo click");
+        const token = localStorage.getItem("refreshToken") ?? '';
+        if (token == null || token == '')
+            navigate(Routers.Login);
+        else 
+        navigate(Routers.Properties);
+    }
+
     const userId: string = useSelector(
         (state: RootState) => state.userId
     );
@@ -81,13 +91,10 @@ export default function Navbar() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography onClick={handleLogoClick} variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Real estate site
                         <p>user id: {userId}</p>
                     </Typography>
-                    {/* TODO remove later */}
-                    <Link to="/">Home</Link>
-                    <Link to="/login">About</Link>
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">

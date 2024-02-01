@@ -22,11 +22,34 @@ const Properties = () => {
         setFilteredData([...properties]);
     }
 
+
+
     useEffect(() => {
         const loadedData = JSON.stringify(propertiesJson);
-        const json = JSON.parse(loadedData);
-        setData(json);
-        setFilteredData(json);
+        let propertiesFromApi: TProperty[] = JSON.parse(loadedData);
+
+
+        const token = localStorage.getItem("refreshToken") ?? '';
+        try {
+            fetch(`http://localhost:3001/property`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                }
+            }).then(function (response) {
+                return response.json()
+            }).then(function (body) {
+                console.log('get properties successful', body);
+                setData([...propertiesFromApi, ...body]);
+                setFilteredData([...propertiesFromApi, ...body]);
+            });
+        } catch (err: unknown) {
+            setData(propertiesFromApi);
+            setFilteredData(propertiesFromApi);
+            console.log("error in action: " + err?.toString())
+        }
+
     }, []);
 
     return (

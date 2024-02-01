@@ -63,7 +63,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(200).send({
             'accessToken': accessToken,
             'refreshToken': refreshToken,
-          //  'expiresIn': process.env.JWT_EXPIRATION
+            '_id': user._id,
         });
     }
     catch (err) {

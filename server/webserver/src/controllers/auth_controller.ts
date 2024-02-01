@@ -51,7 +51,7 @@ const login = async (req: Request, res: Response) => {
         return res.status(200).send({
             'accessToken': accessToken,
             'refreshToken': refreshToken,
-            'expiresIn': process.env.JWT_EXPIRATION
+            '_id': user._id,
         });
     } catch (err) {
         return res.status(400).send("error missing email or password");
