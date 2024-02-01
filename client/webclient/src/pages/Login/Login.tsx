@@ -12,12 +12,8 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../store/UserIdSlice';
 import { TLoginData } from '../../types/TLoginData';
 // import { useState } from 'react';
-import { TRegisterData } from '../../types/TRegisterData';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../../enums/routers';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 const Login = () => {
 
     const {
@@ -34,7 +30,7 @@ const Login = () => {
 
     const dispatch = useDispatch();
 
-    const onSubmit = (data: TLoginData) => {
+    const onSubmit = (data: any) => {
         try {
             fetch(`http://localhost:3001/auth/login`, {
                 method: 'POST',
@@ -47,15 +43,13 @@ const Login = () => {
                 return response.json()
             }).then(function (body) {
                 console.log('login successful', body);
-                const accessToken = body.accessToken;
-                cookies.set('access_token', accessToken, {
-                    path: '/',
-                    httpOnly: true,
-                    // secure: true // Set to true if using HTTPS
-                });
+               
+                const access = body.accessToken;
+                const refresh = body.refreshToken;
+                localStorage.setItem("accessToken", access);
+                localStorage.setItem("refreshToken", refresh);
                 dispatch(login(body));
                 navigate(Routers.Properties);
-
             });
         } catch (err: unknown) {
             console.log("error in action: " + err?.toString())

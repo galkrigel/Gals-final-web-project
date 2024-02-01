@@ -62,7 +62,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("login access token:" + accessToken);
         return res.status(200).send({
             'accessToken': accessToken,
-            'refreshToken': refreshToken
+            'refreshToken': refreshToken,
+          //  'expiresIn': process.env.JWT_EXPIRATION
         });
     }
     catch (err) {
@@ -71,27 +72,35 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const authHeader = req.headers['authorization'];
+    console.log("auth header " + authHeader);
     const refreshToken = authHeader && authHeader.split(' ')[1]; // Bearer <token>
+    console.log("logout " + refreshToken);
     if (refreshToken == null)
         return res.sendStatus(401);
     jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(err);
-        if (err)
+        console.log("err: " + err);
+        if (err) {
+            console.log("arr");
             return res.sendStatus(401);
+        }
         try {
             const userDb = yield user_model_1.default.findOne({ '_id': user._id });
             if (!userDb.refreshTokens || !userDb.refreshTokens.includes(refreshToken)) {
                 userDb.refreshTokens = [];
+                console.log("first");
+                console.log(userDb);
                 yield userDb.save();
                 return res.sendStatus(401);
             }
             else {
                 userDb.refreshTokens = userDb.refreshTokens.filter(t => t !== refreshToken);
+                console.log("second");
                 yield userDb.save();
                 return res.sendStatus(200);
             }
         }
         catch (err) {
+            console.log("logout error: " + err);
             res.sendStatus(401).send(err.message);
         }
     }));

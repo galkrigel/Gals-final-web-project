@@ -22,6 +22,31 @@ export default function Navbar() {
 
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+    const onLogout = () => {
+        const token = localStorage.getItem("refreshToken") ?? '';
+        console.log("logout token client:"  +token);
+        try {
+            fetch(`http://localhost:3001/auth/logout`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                }
+            }).then(function (response) {
+                return response.text()
+            }).then(function (body) {
+                console.log('logout successful', body);
+
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                dispatch(logout());
+
+                navigate(Routers.Login);
+            });
+        } catch (err: unknown) {
+            console.log("error in action: " + err?.toString())
+        }
+    };
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -33,8 +58,9 @@ export default function Navbar() {
 
     const handleLogout = () => {
         handleCloseUserMenu();
-        dispatch(logout());
-        navigate(Routers.Login);
+        // dispatch(logout());
+        // navigate(Routers.Login);
+        onLogout();
     };
 
     const handleAddProperty = () => {

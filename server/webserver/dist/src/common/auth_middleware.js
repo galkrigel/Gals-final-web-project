@@ -7,10 +7,11 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]; // Bearer <token>
+    console.log("middleware token: " + token);
     if (token == null)
         return res.sendStatus(401);
     jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, user) => {
-        console.log(err);
+        console.log("err middleware:" + err);
         if (err)
             return res.sendStatus(401);
         req.user = user;

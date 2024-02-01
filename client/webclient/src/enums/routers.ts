@@ -1,5 +1,5 @@
 export enum Routers {
-    Login = '/login',
+    Login = '/',
     Properties = '/properties',
     EditProfile = '/editProfile',
     Register = '/register'
