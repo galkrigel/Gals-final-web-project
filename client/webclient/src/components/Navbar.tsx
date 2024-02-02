@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { Link } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,34 +19,11 @@ import { useEffect, useState } from 'react';
 
 
 export default function Navbar() {
-    const token = localStorage.getItem("refreshToken") ?? '';
-    const _id = localStorage.getItem("_id") ?? '';
-
     const navigate = useNavigate();
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const [avatarInfo, setAvatarInfo] = useState<{ image: string, letter: string }>({ image: '', letter: '' });
-    const onLoad = () => {
-        try {
-            fetch(`http://localhost:3001/user/${_id}`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                }
-            }).then(function (response) {
-                return response.json()
-            }).then(function (body) {
-                setAvatarInfo({ image: body.image ?? '', letter: body.email[0]?.toUpperCase() ?? '' });
-            });
-        } catch (err: unknown) {
-            console.log("error in action get user profile: " + err?.toString())
-        }
-    };
 
-    useEffect(() => {
-        onLoad();
-    }, [])
 
     const onLogout = () => {
         const token = localStorage.getItem("refreshToken") ?? '';

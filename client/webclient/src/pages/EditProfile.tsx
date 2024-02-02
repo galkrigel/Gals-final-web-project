@@ -9,8 +9,8 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { TUser } from '../types/TUser';
-import { colors } from '@mui/material';
 import ProfilePicture from '../components/ProfilePicture';
+import { SUCCESS_COLOR, ERROR_COLOR } from '../utils/consts';
 
 
 const SUCCESS_MESSAGE = "User profile edited succesfully!";
@@ -67,11 +67,11 @@ export default function EditProfile() {
             }).then(function (response) {
                 return response.json();
             }).then(function (body) {
-                setMessage({ message: SUCCESS_MESSAGE, color: colors.green[400] });
+                setMessage({ message: SUCCESS_MESSAGE, color: SUCCESS_COLOR });
                 console.log('edit user profile successful', body);
             });
         } catch (err: unknown) {
-            setMessage({ message: ERROR_MESSAGE, color: colors.red[400] });
+            setMessage({ message: ERROR_MESSAGE, color: ERROR_COLOR });
             console.log("error in action edit: " + err?.toString())
         }
     };
@@ -82,7 +82,7 @@ export default function EditProfile() {
             editedProfile.secondName != userProfile.secondName)
             onSave();
         else
-            setMessage({ message: NO_CHANGES_MESSAGE, color: colors.red[400] });
+            setMessage({ message: NO_CHANGES_MESSAGE, color: ERROR_COLOR });
     }
 
     return (

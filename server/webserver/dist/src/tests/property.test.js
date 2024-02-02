@@ -19,7 +19,7 @@ const user_model_1 = __importDefault(require("../models/user_model"));
 const property_model_1 = __importDefault(require("../models/property_model"));
 let app;
 const user = {
-    email: "test@student.property.test",
+    email: "test@property.test",
     password: "1234567890",
 };
 let accessToken = "";
@@ -37,7 +37,7 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
 }));
 const property = {
-    ownerID: "test@student.property.test",
+    ownerID: user._id,
     purpose: "for-rent",
     price: "7700",
     title: "Big offer !!! . . Amazing and cosy 1 Bedroom big apartment with Wi-Fi in the heart of Jumeirah Village Circle, Dubai.",
@@ -48,16 +48,13 @@ const property = {
     address: "zahal",
     area: "91.69530048",
 };
-describe("property post tests", () => {
+describe("property tests", () => {
     const addProperty = (property) => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
             .post("/property")
             .set("Authorization", "JWT " + accessToken)
             .send(property);
-        expect(response.statusCode).toBe(201);
-        expect(response.body.ownerID).toBe(user._id);
-        expect(response.body.title).toBe(property.title);
-        expect(response.body.price).toBe(property.price);
+        return response;
     });
     test("Test Get All proeprties - empty response", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app).get("/property");
@@ -65,7 +62,12 @@ describe("property post tests", () => {
         expect(response.body).toStrictEqual([]);
     }));
     test("Test Post property", () => __awaiter(void 0, void 0, void 0, function* () {
-        addProperty(property);
+        const response = yield addProperty(property);
+        property._id = response.body._id;
+        expect(response.statusCode).toBe(201);
+        expect(response.body.ownerID).toBe(user._id);
+        expect(response.body.title).toBe(property.title);
+        expect(response.body.price).toBe(property.price);
     }));
     test("Test Get All properties with one property in DB", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app).get("/property");
@@ -74,6 +76,26 @@ describe("property post tests", () => {
         expect(rc.title).toBe(property.title);
         expect(rc.price).toBe(property.price);
         expect(rc.ownerID).toBe(user._id);
+    }));
+    test("Test get property by id /property/:id", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app)
+            .get(`/property/${property._id}`).set("authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(200);
+        expect(response.body._id).toBe(property._id);
+        expect(response.body.ownerID).toBe(user._id);
+    }));
+    test("Test get property by non existing id /property/:id", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app)
+            .get(`/property/fakeId`).set("authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(500);
+    }));
+    test("Test PUT /property/:id", () => __awaiter(void 0, void 0, void 0, function* () {
+        const updatedProperty = Object.assign(Object.assign({}, property), { price: "10000" });
+        const response = yield (0, supertest_1.default)(app)
+            .put(`/property/${property._id}`)
+            .send(updatedProperty).set("authorization", "JWT " + accessToken);
+        expect(response.statusCode).toBe(201);
+        expect(response.body._id).toBe(updatedProperty._id);
     }));
 });
 //# sourceMappingURL=property.test.js.map

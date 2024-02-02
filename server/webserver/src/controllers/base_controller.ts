@@ -9,14 +9,14 @@ export class BaseController<ModelType>{
     }
 
     async get(req: Request, res: Response) {
-        console.log("getAllStudents");
+        console.log("base: get all");
         try {
-            if (req.query.name) {
-                const students = await this.model.find({ name: req.query.name });
-                res.send(students);
+            if (req.query.email) {
+                const objects = await this.model.find({ email: req.query.email });
+                res.status(200).send(objects);
             } else {
-                const students = await this.model.find();
-                res.send(students);
+                const objects = await this.model.find();
+                res.status(200).send(objects);
             }
         } catch (err) {
             res.status(500).json({ message: err.message });
@@ -24,52 +24,53 @@ export class BaseController<ModelType>{
     }
 
     async getById(req: Request, res: Response) {
-        console.log("getStudentById:" + req.params.id);
+        console.log("base: get by id: " + req.params.id);
         try {
-            const student = await this.model.findById(req.params.id);
+            const object = await this.model.findById(req.params.id);
             console.log("id: " + req.params.id);
-            console.log("student: " + student)
+            console.log("object: " + object)
 
-            res.send(student);
+            res.send(object);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
     }
 
     async post(req: Request, res: Response) {
-        console.log("postStudent:" + req.body);
+        console.log("base: post: " + req.body);
         try {
             const obj = await this.model.create(req.body);
             res.status(201).send(obj);
         } catch (err) {
-            console.log("post student error: " + err);
-            res.status(406).send("fail: " + err.message);
+            console.log("base post error: " + err);
+            res.status(406).send("base fail: " + err.message);
         }
     }
 
-
-    // TODO Implementttttt
     async putById(req: Request, res: Response) {
-        console.log("put by id:" + req.params.id);
+        console.log("base: put by id: " + req.params.id);
         try {
-            const obj = await this.model.findByIdAndUpdate(req.params.id, req.body);
+            const obj = await this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
             res.status(201).send(obj);
         } catch (err) {
-            console.log("put error: " + err);
-            res.status(406).send("fail: " + err.message);
+            console.log("base put error: " + err);
+            res.status(406).send("base fail: " + err.message);
         }
         //res.send("put student by id: " + req.params.id);
     }
 
-    //todo check
     async deleteById(req: Request, res: Response) {
-        console.log("delete by id :" + req.params.id);
+        console.log("base delete by id: " + req.params.id);
         try {
             const obj = await this.model.findByIdAndDelete(req.params.id);
-            res.status(201).send(obj);
+            if (obj == null)
+                res.status(400).send(obj);
+            else
+                res.status(201).send(obj);
+
         } catch (err) {
-            console.log("delete error: " + err);
-            res.status(406).send("fail: " + err.message);
+            console.log("base delete error: " + err);
+            res.status(401).send("base fail: " + err.message);
         }
     }
 }

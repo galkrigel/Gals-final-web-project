@@ -8,9 +8,10 @@ import Property, { IProperty } from "../models/property_model";
 let app: Express;
 
 const user: IUser = {
-    email: "test@student.property.test",
+    email: "test@property.test",
     password: "1234567890",
   }
+  
 let accessToken = "";
 
 beforeAll(async () => {
@@ -31,7 +32,7 @@ afterAll(async () => {
 
 const property: IProperty = 
 {
-    ownerID: "test@student.property.test",
+    ownerID: user._id,
     purpose: "for-rent",
     price: "7700",
     title: "Big offer !!! . . Amazing and cosy 1 Bedroom big apartment with Wi-Fi in the heart of Jumeirah Village Circle, Dubai.",
@@ -44,16 +45,14 @@ const property: IProperty =
  
 };
 
-describe("property post tests", () => {
+describe("property tests", () => {
+
   const addProperty = async (property: IProperty) => {
     const response = await request(app)
       .post("/property")
       .set("Authorization", "JWT " + accessToken)
       .send(property);
-    expect(response.statusCode).toBe(201);
-    expect(response.body.ownerID).toBe(user._id);
-    expect(response.body.title).toBe(property.title);
-    expect(response.body.price).toBe(property.price);
+    return response;
   };
 
   test("Test Get All proeprties - empty response", async () => {
@@ -63,7 +62,12 @@ describe("property post tests", () => {
   });
 
   test("Test Post property", async () => {
-    addProperty(property);
+    const response = await addProperty(property);
+    property._id = response.body._id;
+    expect(response.statusCode).toBe(201);
+    expect(response.body.ownerID).toBe(user._id);
+    expect(response.body.title).toBe(property.title);
+    expect(response.body.price).toBe(property.price);
   });
 
   test("Test Get All properties with one property in DB", async () => {
@@ -75,4 +79,26 @@ describe("property post tests", () => {
     expect(rc.ownerID).toBe(user._id);
   });
 
+  test("Test get property by id /property/:id", async () => {
+    const response = await request(app)
+      .get(`/property/${property._id}`).set("authorization", "JWT " + accessToken);
+    expect(response.statusCode).toBe(200);
+    expect(response.body._id).toBe(property._id);
+    expect(response.body.ownerID).toBe(user._id);
+  });
+
+  test("Test get property by non existing id /property/:id", async () => {
+    const response = await request(app)
+      .get(`/property/fakeId`).set("authorization", "JWT " + accessToken);
+    expect(response.statusCode).toBe(500);
+  });
+
+  test("Test PUT /property/:id", async () => {
+    const updatedProperty = { ...property, price: "10000" };
+    const response = await request(app)
+      .put(`/property/${property._id}`)
+      .send(updatedProperty).set("authorization", "JWT " + accessToken);
+    expect(response.statusCode).toBe(201);
+    expect(response.body._id).toBe(updatedProperty._id);
+  });
 });

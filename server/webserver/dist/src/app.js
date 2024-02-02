@@ -11,7 +11,6 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const user_route_1 = __importDefault(require("./routes/user_route"));
 const property_route_1 = __importDefault(require("./routes/property_route"));
-const student_post_route_1 = __importDefault(require("./routes/student_post_route"));
 const auth_route_1 = __importDefault(require("./routes/auth_route"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
@@ -42,9 +41,7 @@ const initApp = () => {
             app.use((0, cors_1.default)(corsOptions));
             app.use(body_parser_1.default.json());
             app.use(body_parser_1.default.urlencoded({ extended: true }));
-            //app.use("/student", studentRoute);
             app.use("/user", user_route_1.default);
-            app.use("/studentpost", student_post_route_1.default);
             app.use("/property", property_route_1.default);
             app.use("/auth", auth_route_1.default);
             app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));

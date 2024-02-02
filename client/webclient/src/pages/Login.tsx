@@ -12,12 +12,16 @@ import { login } from '../store/UserIdSlice';
 import { TLoginData } from '../types/TLoginData';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../enums/routers';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { gapi } from 'gapi-script';
-import { CLIENT_ID } from '../utils/consts';
+import { CLIENT_ID, ERROR_COLOR } from '../utils/consts';
 import styles from '../css/Login.module.css';
 import LoginWithGoogle from '../components/LoginWithGoogle';
+
+const ERROR_MESSAGE = "There was a problem to login. ";
+
 const Login = () => {
+    const [message, setMessage] = useState<{ message: string, color: any }>({ message: '', color: '' });
 
     useEffect(() => {
         function start() {
@@ -28,7 +32,6 @@ const Login = () => {
         };
         gapi.load('client:auth2', start);
     })
-
 
     const {
         register,
@@ -70,6 +73,7 @@ const Login = () => {
                 navigate(Routers.Properties);
             });
         } catch (err: unknown) {
+            setMessage({ message: ERROR_MESSAGE, color: ERROR_COLOR });
             console.log("error in action: " + err?.toString())
         }
     };
@@ -77,7 +81,7 @@ const Login = () => {
     return (
         <div className={styles.login}>
             <Box
-            className={styles.box}
+                className={styles.box}
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
                 sx={{
@@ -129,6 +133,12 @@ const Login = () => {
                     label="Remember Me"
                     sx={{ mt: 1, textAlign: 'left' }}
                 />
+                {message.message != '' ?
+                    <Typography component="h6" color={message.color} sx={{ mt: 5, ml: 1 }}>
+                        {message.message}
+                    </Typography>
+                    : null}
+
                 <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
                     Login
                 </Button>

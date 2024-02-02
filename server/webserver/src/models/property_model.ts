@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IProperty {
+    _id?: string,
     ownerID: string;
     purpose?: string;
     price: string;
