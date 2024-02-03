@@ -1,7 +1,7 @@
 import { TComment } from "./TComment"
 
 export type TProperty = {
-    id: number,
+    _id: string,
     ownerID: number,
     purpose: string,
     price: number,

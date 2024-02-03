@@ -8,43 +8,37 @@ import { Box, Button, CardActionArea } from '@mui/material';
 import styles from '../css/PropertyCard.module.css';
 
 
-
 interface Props {
     property: TProperty;
+    onDeleteProperty: (_id: string) => void;
 }
 
 const PropertyCard = (props: Props) => {
     const connectedUserId = localStorage.getItem("_id") ?? '';
 
+const onDelete =() => {
+    const token = localStorage.getItem("refreshToken") ?? '';
+    try {
+        fetch(`http://localhost:3001/property/${props.property._id}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            }
+        }).then(function (response) {
+            return response.text()
+        }).then(function (body) {
+            props.onDeleteProperty(props.property._id);
+            console.log('delete successful', body);
+        });
+    } catch (err: unknown) {
+        console.log("error in delete: " + err?.toString())
+    }
+};
+
     const handlePropertyClick = () => {
     }
-    // return (
-    //     <Card  className={styles.card}>
-    //         <CardActionArea onClick={() => { }}>
-    //             <CardMedia
-    //                 component="img"
-    //                 height="140"
-    //                 width="40"
-    //                 image={props.property.coverPhoto.url}
-    //                 alt=""
-    //             />
-    //             <CardContent>
-    //                 <Typography gutterBottom variant="h5" component="div">
-    //                     {props.property.title}
-    //                 </Typography>
-    //                 <Typography variant="body2" color="text.secondary">
-    //                     contact: {props.property.contactName}, {props.property.phoneNumber.mobile}
-    //                 </Typography>
-    //                 <Typography variant="body2" color="text.secondary">
-    //                     rooms: {props.property.rooms}, size: {props.property.area}
-    //                 </Typography>
-    //                 <Typography variant="body2" color="text.secondary">
-    //                     price: {props.property.price}$
-    //                 </Typography>
-    //             </CardContent>
-    //         </CardActionArea>
-    //     </Card>
-    // );
+
 
     return (
         <Card sx={{ display: 'flex' }} className={styles.card}>
@@ -75,11 +69,14 @@ const PropertyCard = (props: Props) => {
              
                 </Box>
             </Box>
-            <Box>
-                <Button variant="contained" disabled={connectedUserId != props.property.ownerID.toString()} onClick={()=>{}}>
+            {connectedUserId == props.property.ownerID.toString() ? <Box>
+                <Button variant="contained" onClick={()=>{}}>
                     Edit
                 </Button>
-            </Box>
+                <Button variant="contained" onClick={()=>{onDelete()}}>
+                    Delete
+                </Button>
+            </Box> : null}
         </Card>
     );
 
