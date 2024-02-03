@@ -22,8 +22,8 @@ export default function EditProfile() {
     const token = localStorage.getItem("refreshToken") ?? '';
     const _id = localStorage.getItem("_id") ?? '';
 
-    const [userProfile, setUserProfile] = useState<TUser>({ _id: '' });
-    const [editedProfile, setEditedProfile] = useState<TUser>({ _id: '' });
+    const [userProfile, setUserProfile] = useState<TUser>({ _id: '' , email: '', firstName: '', secondName: ''});
+    const [editedProfile, setEditedProfile] = useState<TUser>({ _id: '', email: '', firstName: '', secondName: ''});
     const [message, setMessage] = useState<{ message: string, color: any }>({ message: '', color: '' });
 
 
@@ -95,7 +95,7 @@ export default function EditProfile() {
                             User's details
                         </Typography>
                         <p></p>
-                        <ProfilePicture letter={userProfile.email?.toUpperCase()[0] ?? ''} image={userProfile.image} />
+                        <ProfilePicture  />
 
                         <Grid container spacing={3}>
 
@@ -148,9 +148,7 @@ export default function EditProfile() {
                                     name="second name"
                                     label="second name"
                                     fullWidth
-
                                     value={editedProfile?.secondName ?? ''}
-
                                     variant="standard"
                                 />
                             </Grid>

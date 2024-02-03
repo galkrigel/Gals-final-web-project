@@ -128,11 +128,11 @@ const Login = () => {
                     margin="normal"
                     sx={{ mt: 2 }}
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                     control={<Checkbox {...register} color="primary" />}
                     label="Remember Me"
                     sx={{ mt: 1, textAlign: 'left' }}
-                />
+                /> */}
                 {message.message != '' ?
                     <Typography component="h6" color={message.color} sx={{ mt: 5, ml: 1 }}>
                         {message.message}
@@ -149,7 +149,7 @@ const Login = () => {
 
                 </Box>
                 <p></p>
-                <LoginWithGoogle />
+                {/* <LoginWithGoogle /> */}
             </Box>
         </div>
     );

@@ -22,8 +22,16 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-    const [avatarInfo, setAvatarInfo] = useState<{ image: string, letter: string }>({ image: '', letter: '' });
+    const [isUserConnected, setIsUserConnected] = useState<boolean>(false);
 
+    useEffect(() => {
+        const token = localStorage.getItem("refreshToken") ?? '';
+        console.log("use effect " + token)
+        if (token == null || token == '')
+            setIsUserConnected(false);
+        else
+            setIsUserConnected(true);
+    }, [localStorage.getItem("refreshToken")])
 
     const onLogout = () => {
         const token = localStorage.getItem("refreshToken") ?? '';
@@ -62,8 +70,6 @@ export default function Navbar() {
 
     const handleLogout = () => {
         handleCloseUserMenu();
-        // dispatch(logout());
-        // navigate(Routers.Login);
         onLogout();
     };
 
@@ -86,10 +92,6 @@ export default function Navbar() {
             navigate(Routers.Properties);
     }
 
-    const userId: string = useSelector(
-        (state: RootState) => state.userId
-    );
-
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -97,41 +99,40 @@ export default function Navbar() {
                     <Typography onClick={handleLogoClick} variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Real estate site
                     </Typography>
-
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
-                                <ProfilePicture letter={avatarInfo.letter} image={avatarInfo.image} />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            <MenuItem onClick={handleLogout}>
-                                <Typography textAlign="center">Logout</Typography>
-                            </MenuItem>
-                            <MenuItem onClick={handleAddProperty}>
-                                <Typography textAlign="center">Add property</Typography>
-                            </MenuItem>
-                            <MenuItem onClick={handleEditProfile}>
-                                <Typography textAlign="center">Edit profile</Typography>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
+                    {isUserConnected ?
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <ProfilePicture />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem onClick={handleLogout}>
+                                    <Typography textAlign="center">Logout</Typography>
+                                </MenuItem>
+                                <MenuItem onClick={handleAddProperty}>
+                                    <Typography textAlign="center">Add property</Typography>
+                                </MenuItem>
+                                <MenuItem onClick={handleEditProfile}>
+                                    <Typography textAlign="center">Edit profile</Typography>
+                                </MenuItem>
+                            </Menu>
+                        </Box> : null}
                 </Toolbar>
             </AppBar>
         </Box>
