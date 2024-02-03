@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { TProperty } from "../types/TProperty";
 import { TComment } from "../types/TComment";
+
 interface Props {
     property: TProperty;
 }

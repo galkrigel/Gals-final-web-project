@@ -4,13 +4,19 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { useEffect, useState } from "react";
 import propertiesJson from '../properties.json';
 import ShowBy from "../components/ShowBy";
+import Switch from '@mui/material/Switch';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const Properties = () => {
     const [data, setData] = useState<TProperty[]>([]);
     const [filteredData, setFilteredData] = useState<TProperty[]>([]);
+    const [showUserProperties, setShowUserProperties] = useState<boolean>(false);
     let loadedData;
     let propertiesFromApi: TProperty[];
     const token = localStorage.getItem("refreshToken") ?? '';
+    const _id = localStorage.getItem("_id") ?? '';
+
 
     // const data: TApiResponse = useApiGet(
     //     "https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/snapshot?latitude=39.7047&longitude=-105.0814&radius=2&pagesize=8"
@@ -19,7 +25,10 @@ const Properties = () => {
     // if (!data.loading) {
     //     console.log(data);
     // }
+    const handleSwitchChange = () => {
+        setShowUserProperties(!showUserProperties);
 
+    }
     const changeData = (properties: TProperty[]) => {
         setFilteredData([...properties]);
     }
@@ -64,8 +73,16 @@ const Properties = () => {
             <LoadingSpinner /> :
             <div>
                 <ShowBy data={data} setData={changeData} />
+                <FormGroup>
+                    <FormControlLabel control={<Switch checked={showUserProperties}
+                        onChange={handleSwitchChange}
+                        inputProps={{ 'aria-label': 'controlled' }} />} label="show properties that posted by me" />
+                </FormGroup>
+
                 {filteredData?.map((item: TProperty, i: number) => (
-                    <PropertyCard property={item} onDeleteProperty={onDeleteProperty}  key={i} />
+                    !showUserProperties || (showUserProperties && item.ownerID == _id) ?
+                        <PropertyCard property={item} onDeleteProperty={onDeleteProperty} key={i} />
+                        : null
                 ))}
             </div>
     )
