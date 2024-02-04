@@ -2,7 +2,6 @@ import express from "express";
 const router = express.Router();
 import multer from "multer";
 
-// const base = "http://" + process.env.DOMAIN_BASE + ":" + process.env.PORT + "/";
 const base = "http://localhost:3001/";
 
 const storage = multer.diskStorage({
@@ -11,7 +10,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const ext = file.originalname.split('.')
-            .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
+            .filter(Boolean) 
             .slice(1)
             .join('.')
         cb(null, Date.now() + "." + ext)

@@ -6,10 +6,16 @@ import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { TUser } from '../types/TUser';
 
+interface Props {
+    isNavbar: boolean;
+}
 
-const ProfilePicture = () => {
-    const [user, setUser] = useState<TUser>({ _id: '', email: 'a', firstName: '', secondName: '', image: '' });
-
+const ProfilePicture = (props: Props) => {
+    const [user, setUser] = useState<TUser>({ _id: '', email: 'a', firstName: '', secondName: '', imgUrl: '' });
+    let imgStyle = { height: "50px", width: "50px", borderRadius: "25px" };
+    if (!props.isNavbar) {
+        imgStyle = { height: "100px", width: "100px", borderRadius: "50px" };
+    }
     const token = localStorage.getItem("refreshToken") ?? '';
     const _id = localStorage.getItem("_id") ?? '';
 
@@ -38,9 +44,9 @@ const ProfilePicture = () => {
     };
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
-            {user.image == null || user.image == '' ?
+            {user.imgUrl == null || user.imgUrl == undefined || user.imgUrl == '' ?
                 <Avatar sx={{ bgcolor: grey[500] }}>{user.email[0].toUpperCase()}</Avatar> :
-                <Avatar alt="profile picture" src={user.image} />}
+                <img src={user.imgUrl} style={imgStyle}></img>}
         </Box>
     )
 }

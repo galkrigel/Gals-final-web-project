@@ -15,6 +15,8 @@ import { gapi } from 'gapi-script';
 import { CLIENT_ID, ERROR_COLOR } from '../utils/consts';
 import styles from '../css/Login.module.css';
 import LoginWithGoogle from '../components/LoginWithGoogle';
+import { Login as LoginFunc } from '../services/user-service';
+import { TUser } from '../types/TUser';
 
 const ERROR_MESSAGE = "There was a problem to login. ";
 
@@ -43,37 +45,16 @@ const Login = () => {
         navigate(Routers.Register);
     }
 
-    const dispatch = useDispatch();
-
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
+        const user: TUser = { email: data.email, password: data.password, };
         try {
-            fetch(`http://localhost:3001/auth/login`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: data.email,
-                    password: data.password
-                }),
-                headers: { "Content-Type": "application/json" }
-            }).then(function (response) {
-                return response.json()
-            }).then(function (body) {
-                console.log('login successful', body);
-
-                const access = body.accessToken;
-                const refresh = body.refreshToken;
-                const _id = body._id;
-
-                localStorage.setItem("accessToken", access);
-                localStorage.setItem("refreshToken", refresh);
-                localStorage.setItem("_id", _id);
-
-                dispatch(login(body));
-                navigate(Routers.Properties);
-            });
+            await LoginFunc(user);
+            navigate(Routers.Properties);
         } catch (err: unknown) {
+            console.log("err in login " + err);
             setMessage({ message: ERROR_MESSAGE, color: ERROR_COLOR });
-            console.log("error in action: " + err?.toString())
         }
+
     };
 
     return (
@@ -89,6 +70,9 @@ const Login = () => {
                     borderRadius: '8px',
                     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
                     backgroundColor: 'white',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%'
                 }}
             >
 
@@ -144,7 +128,6 @@ const Login = () => {
                     <Link href="#" variant="body2" onClick={moveToRegisterPage}>
                         Don't have an account? Sign Up
                     </Link>
-
                 </Box>
                 <p></p>
                 {/* <LoginWithGoogle /> */}

@@ -40,8 +40,10 @@ const initApp = () => {
         mongoose_1.default.connect(url).then(() => {
             const app = (0, express_1.default)();
             app.use((0, cors_1.default)(corsOptions));
-            app.use(body_parser_1.default.json());
-            app.use(body_parser_1.default.urlencoded({ extended: true }));
+            // app.use(bodyParser.json());
+            // app.use(bodyParser.urlencoded({ extended: true }));
+            app.use(body_parser_1.default.json({ limit: '50mb' }));
+            app.use(body_parser_1.default.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
             app.use("/user", user_route_1.default);
             app.use("/file", file_route_1.default);
             app.use("/property", property_route_1.default);

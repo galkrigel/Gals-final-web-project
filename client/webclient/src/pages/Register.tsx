@@ -1,8 +1,6 @@
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -10,12 +8,22 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../enums/routers';
 import styles from '../css/Register.module.css';
+import avater from '../assets/avatar.jpeg';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { useState, useRef } from 'react';
+import { uploadPhoto } from '../services/file-service';
+import { Register as RegisterFunc } from '../services/user-service';
+import { TUser } from '../types/TUser';
+import { ERROR_COLOR } from '../utils/consts';
 
+
+const ERROR_MESSAGE = "There was a problem to register. ";
 
 
 const Register = () => {
-    // const { watch } = useForm();
-
+    const [message, setMessage] = useState<{ message: string, color: any }>({ message: '', color: '' });
+    const [imgSrc, setImgSrc] = useState<File>();
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const {
         register,
         handleSubmit,
@@ -24,30 +32,39 @@ const Register = () => {
 
     const navigate = useNavigate();
 
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
+        let url = '';
+        if (imgSrc != null && imgSrc != undefined) {
+            url = await uploadPhoto(imgSrc!);
+            console.log("upload returned:" + url);
+        }
+        const user: TUser =
+        {
+            email: data.email,
+            password: data.password,
+            imgUrl: url
+        };
+
         try {
-            fetch(`http://localhost:3001/auth/register`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: data.email,
-                    password: data.password
-                }),
-                headers: { "Content-Type": "application/json" }
-            }).then(function (response) {
-                return response.json()
-            }).then(function (body) {
-                console.log('register successful', body);
-                navigate(Routers.Login);
-            });
+            await RegisterFunc(user);
+            navigate(Routers.Login);
         } catch (err: unknown) {
-            console.log("error in register: " + err?.toString())
+            console.log("err in login " + err);
+            setMessage({ message: ERROR_MESSAGE, color: ERROR_COLOR });
         }
     };
 
     const moveToLoginPage = () => {
         navigate(Routers.Login);
     }
-
+    const imageSelected = (event: any) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setImgSrc(event.target.files[0]);
+        }
+    }
+    const selectImg = () => {
+        fileInputRef.current?.click();
+    }
     return (
         <div className={styles.register}>
             <Box
@@ -55,16 +72,40 @@ const Register = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 sx={{
                     maxWidth: '500px',
+                    width: '100%',
                     margin: 'auto',
                     padding: '20px',
                     borderRadius: '8px',
                     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
                     backgroundColor: 'white',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
                 }}
             >
                 <Typography variant="h5" component="div" sx={{ mb: 2 }}>
                     Registeration Form
                 </Typography>
+
+                <img src={imgSrc ? URL.createObjectURL(imgSrc) : avater}
+                    style={{ height: "200px", width: "200px" }}
+                ></img>
+
+                <input
+                    style={{ display: "none" }}
+                    ref={fileInputRef}
+
+                    onChange={(event) => { imageSelected(event) }}
+                    id="image"
+                    type="file"
+                />
+                <Button
+                    onClick={selectImg}>
+                    <AddAPhotoIcon
+                    />
+                </Button>
+
+
                 <TextField
                     fullWidth
                     label="email"
@@ -76,17 +117,7 @@ const Register = () => {
                     // helperText={errors.username?.message}
                     margin="normal"
                 />
-                {/* <TextField
-                    fullWidth
-                    label="username"
-                    {...register('username', {
-                        required: 'username is required',
-                        minLength: 3
-                    })}
-                    error={Boolean(errors.username)}
-                    // helperText={errors.username?.message}
-                    margin="normal"
-                /> */}
+
                 <TextField
                     fullWidth
                     type="password"
@@ -103,29 +134,12 @@ const Register = () => {
                     margin="normal"
                     sx={{ mt: 2 }}
                 />
-                {/* <TextField
-                    fullWidth
-                    type="password"
-                    label="confirm password"
-                    {...register('confirm_password', {
-                        required: 'true',
-                        validate: (val: string) => {
-                            if (watch('password') != val) {
-                                return "Your passwords do no match";
-                            }
-                        },
-                    })}
-                    error={Boolean(errors.confirm_password)}
-                    //helperText={errors.password?.message}
-                    margin="normal"
-                    sx={{ mt: 2 }}
-                /> */}
-                <FormControlLabel
-                    control={<Checkbox {...register} color="primary" />}
-                    label="Remember Me"
-                    sx={{ mt: 1, textAlign: 'left' }}
-                />
-                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                {message.message != '' ?
+                    <Typography component="h6" color={message.color} sx={{ mt: 5, ml: 1 }}>
+                        {message.message}
+                    </Typography>
+                    : null}
+                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} >
                     Register
                 </Button>
                 <Box mt={1} sx={{ mt: 2, textAlign: 'center' }}>

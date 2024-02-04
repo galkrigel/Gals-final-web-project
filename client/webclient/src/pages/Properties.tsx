@@ -7,7 +7,7 @@ import ShowBy from "../components/ShowBy";
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
+import { getProperties } from "../services/property-service";
 const Properties = () => {
     const [data, setData] = useState<TProperty[]>([]);
     const [filteredData, setFilteredData] = useState<TProperty[]>([]);
@@ -40,21 +40,12 @@ const Properties = () => {
         setFilteredData(filtered);
     }
 
-    const getPropertiesFromDB = () => {
+    const getPropertiesFromDB = async () => {
         try {
-            fetch(`http://localhost:3001/property`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                }
-            }).then(function (response) {
-                return response.json()
-            }).then(function (body) {
-                console.log('get properties successful', body);
-                setData([...propertiesFromApi, ...body]);
-                setFilteredData([...propertiesFromApi, ...body]);
-            });
+            const res = await getProperties();
+            setData([...propertiesFromApi, ...res]);
+            setFilteredData([...propertiesFromApi, ...res]);
+
         } catch (err: unknown) {
             setData(propertiesFromApi);
             setFilteredData(propertiesFromApi);

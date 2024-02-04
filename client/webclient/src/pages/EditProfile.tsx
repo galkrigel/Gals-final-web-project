@@ -95,7 +95,7 @@ export default function EditProfile() {
                             User's details
                         </Typography>
                         <p></p>
-                        <ProfilePicture  />
+                        <ProfilePicture isNavbar={false}  />
 
                         <Grid container spacing={3}>
 

@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 const register = async (req: Request, res: Response) => {
     const email = req.body.email;
     const password = req.body.password;
+    const imgUrl = req.body.imgUrl;
     if (!email || !password) {
         return res.status(400).send("missing email or password");
     }
@@ -16,7 +17,7 @@ const register = async (req: Request, res: Response) => {
         }
         const salt = await bcrypt.genSalt(10);
         const encryptedPassword = await bcrypt.hash(password, salt);
-        const rs2 = await User.create({ 'email': email, 'password': encryptedPassword });
+        const rs2 = await User.create({ 'email': email, 'password': encryptedPassword, 'imgUrl': imgUrl });
         return res.status(201).send(rs2);
     } catch (err) {
         return res.status(400).send("error missing email or password");
@@ -66,7 +67,7 @@ const logout = async (req: Request, res: Response) => {
         if (err) {
             return res.sendStatus(401);
         }
-  
+
         try {
             const userDb = await User.findOne({ '_id': user._id });
             if (!userDb.refreshTokens || !userDb.refreshTokens.includes(refreshToken)) {
