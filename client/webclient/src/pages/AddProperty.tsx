@@ -13,6 +13,7 @@ import AddPropertyAdditionalInfoForm from '../components/AddPropertyAdditionalIn
 import { useState } from 'react';
 import { PostProperty } from '../services/property-service';
 import { TProperty } from '../types/TProperty';
+import { uploadPhoto } from '../services/file-service';
 
 const steps = ['Basic info', 'Additional info'];
 
@@ -28,13 +29,15 @@ export default function AddProperty() {
   const [rooms, setRooms] = useState<string>('0');
   const [baths, setBaths] = useState<string>('0');
   const [area, setArea] = useState<string>('0');
+  const [imgFile, setImgFile] = useState<File>();
+
 
   function getStepContent(step: number) {
     switch (step) {
       case 0:
         return <AddPropertyBasicInfoForm changeCity={setCity} changeCountry={setCountry} changePrice={setPrice} changePurpose={setPurpose} changeTitle={setTitle} />;
       case 1:
-        return <AddPropertyAdditionalInfoForm changeAddress={setAddress} changeArea={setArea} changeBaths={setBaths} changeRooms={setRooms} />;
+        return <AddPropertyAdditionalInfoForm changeAddress={setAddress} changeArea={setArea} changeBaths={setBaths} changeRooms={setRooms} changeImgUrl={setImgFile} imgUrl={imgFile} />;
       default:
         throw new Error('Unknown step');
     }
@@ -45,6 +48,11 @@ export default function AddProperty() {
   };
 
   const handleSubmit = async () => {
+    let url = '';
+    if (imgFile != null && imgFile != undefined) {
+        url = await uploadPhoto(imgFile!);
+        console.log("upload returned:" + url);
+    }
     const property: TProperty = {
       title: title,
       purpose: purpose,
@@ -54,7 +62,8 @@ export default function AddProperty() {
       address: address,
       rooms: parseInt(rooms),
       baths: parseInt(baths),
-      area: parseInt(area)
+      area: parseInt(area),
+      imgUrl: url,
     }
     await PostProperty(property);
     setActiveStep(activeStep + 1);

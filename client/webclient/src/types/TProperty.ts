@@ -25,6 +25,7 @@ export type TProperty = {
     coverPhoto?: {
         url: string
     },
-    comments?: TComment[]
+    comments?: TComment[],
+    imgUrl?: string,
 }
 

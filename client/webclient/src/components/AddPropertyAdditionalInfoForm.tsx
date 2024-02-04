@@ -2,15 +2,33 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import { useRef } from 'react';
+import Button from '@mui/material/Button';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { Box } from '@mui/material';
 
 interface Props {
     changeAddress: (initialState: string) => void;
     changeRooms: (initialState: string) => void;
     changeBaths: (initialState: string) => void;
     changeArea: (initialState: string) => void;
+    changeImgUrl: (initialState: File) => void;
+    imgUrl: File | undefined;
+
 }
 
 export default function AddPropertyAdditionalInfoForm(props: Props) {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const imageSelected = (event: any) => {
+        if (event.target.files && event.target.files.length > 0) {
+            props.changeImgUrl(event.target.files[0]);
+        }
+    }
+    const selectImg = () => {
+        fileInputRef.current?.click();
+    }
+
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
@@ -64,16 +82,28 @@ export default function AddPropertyAdditionalInfoForm(props: Props) {
                         variant="standard"
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    {/* <input
-                        required
-                        onChange={(event) => {}}
+                <Grid item xs={12}></Grid>
+                <Box sx={{ display: 'flex', flexDirection: 'column', width: "100%" }}>
+                    <center>
+                        {props.imgUrl ? <img src={URL.createObjectURL(props.imgUrl)}
+                            style={{ height: "200px", width: "200px" }}
+                        ></img> : null}
+                    </center>
+                    <input
+                        style={{ display: "none" }}
+                        ref={fileInputRef}
+                        onChange={(event) => { imageSelected(event) }}
                         id="image"
                         type="file"
-                
-                    /> */}
-                </Grid>
+                    />
+                    <Button
+                        onClick={selectImg}>
+                        <AddAPhotoIcon />
+                    </Button>
+
+                </Box>
             </Grid>
+
         </React.Fragment>
     );
 }

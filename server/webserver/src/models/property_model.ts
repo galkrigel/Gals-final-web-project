@@ -15,6 +15,7 @@ export interface IProperty {
     coverPhoto?: { url: string }
     phoneNumber?: { mobile: string, phone: string, whatsapp: string };
     comments?: Array<{ownerId: string, text: string}>;
+    imgUrl?: string;
 }
 
 const propertySchema = new mongoose.Schema<IProperty>({
@@ -67,6 +68,10 @@ const propertySchema = new mongoose.Schema<IProperty>({
             required: true,
         }
     }],
+    imgUrl: {
+        type: String,
+        required: false,
+      },
 });
 
 export default mongoose.model<IProperty>("Properties", propertySchema);

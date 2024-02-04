@@ -54,6 +54,10 @@ const propertySchema = new mongoose_1.default.Schema({
                 required: true,
             }
         }],
+    imgUrl: {
+        type: String,
+        required: false,
+    },
 });
 exports.default = mongoose_1.default.model("Properties", propertySchema);
 //# sourceMappingURL=property_model.js.map
