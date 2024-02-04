@@ -7,13 +7,11 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
-import { useDispatch } from 'react-redux';
-import { logout } from '../store/UserIdSlice';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../enums/routers';
 import ProfilePicture from './ProfilePicture';
 import { useEffect, useState } from 'react';
-
+import { Logout } from '../services/user-service';
 
 
 export default function Navbar() {
@@ -24,51 +22,23 @@ export default function Navbar() {
 
     useEffect(() => {
         const token = localStorage.getItem("refreshToken") ?? '';
-        console.log("use effect " + token)
         if (token == null || token == '')
             setIsUserConnected(false);
         else
             setIsUserConnected(true);
     }, [localStorage.getItem("refreshToken")])
 
-    const onLogout = () => {
-        const token = localStorage.getItem("refreshToken") ?? '';
-        console.log("logout token client:" + token);
-        try {
-            fetch(`http://localhost:3001/auth/logout`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                }
-            }).then(function (response) {
-                return response.text()
-            }).then(function (body) {
-                console.log('logout successful', body);
-
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("refreshToken");
-                localStorage.removeItem("_id");
-                dispatch(logout());
-
-                navigate(Routers.Login);
-            });
-        } catch (err: unknown) {
-            console.log("error in action: " + err?.toString())
-        }
-    };
+    const onLogout = async () => {
+        await Logout();
+        handleCloseUserMenu();
+        navigate(Routers.Login);
+    }
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
-    };
-    const dispatch = useDispatch();
-
-    const handleLogout = () => {
-        handleCloseUserMenu();
-        onLogout();
     };
 
     const handleAddProperty = () => {
@@ -120,7 +90,7 @@ export default function Navbar() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <MenuItem onClick={handleLogout}>
+                                <MenuItem onClick={onLogout}>
                                     <Typography textAlign="center">Logout</Typography>
                                 </MenuItem>
                                 <MenuItem onClick={handleAddProperty}>

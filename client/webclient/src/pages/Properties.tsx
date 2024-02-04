@@ -45,7 +45,6 @@ const Properties = () => {
             const res = await getProperties();
             setData([...propertiesFromApi, ...res]);
             setFilteredData([...propertiesFromApi, ...res]);
-
         } catch (err: unknown) {
             setData(propertiesFromApi);
             setFilteredData(propertiesFromApi);

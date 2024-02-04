@@ -28,17 +28,17 @@ const propertySchema = new mongoose_1.default.Schema({
         type: { mobile: String, phone: String, whatsapp: String }
     },
     price: {
-        type: String,
+        type: Number,
         required: true,
     },
     rooms: {
-        type: String,
+        type: Number,
     },
     baths: {
-        type: String,
+        type: Number,
     },
     area: {
-        type: String,
+        type: Number,
     },
     title: {
         type: String,

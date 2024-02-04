@@ -11,7 +11,8 @@ import Typography from '@mui/material/Typography';
 import AddPropertyBasicInfoForm from '../components/AddPropertyBasicForm';
 import AddPropertyAdditionalInfoForm from '../components/AddPropertyAdditionalInfoForm';
 import { useState } from 'react';
-
+import { PostProperty } from '../services/property-service';
+import { TProperty } from '../types/TProperty';
 
 const steps = ['Basic info', 'Additional info'];
 
@@ -28,8 +29,6 @@ export default function AddProperty() {
   const [baths, setBaths] = useState<string>('0');
   const [area, setArea] = useState<string>('0');
 
-
-
   function getStepContent(step: number) {
     switch (step) {
       case 0:
@@ -45,39 +44,21 @@ export default function AddProperty() {
     setActiveStep(activeStep + 1);
   };
 
-  const handleSubmit = () => {
-    const token = localStorage.getItem("refreshToken") ?? '';
-    try {
-      fetch(`http://localhost:3001/property/`, {
-        method: 'POST',
-        body: JSON.stringify({
-          title: title,
-          purpose: purpose,
-          price: price,
-          country: country,
-          city: city,
-          address: address,
-          rooms: rooms,
-          baths: baths,
-          area: area
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          "authorization": `Bearer ${token}`
-      }
-      }).then(function (response) {
-        console.log("res:" + response)
-        return response.json()
-      }).then(function (body) {
-        console.log("body:" + body)
-        console.log('post property successful', body);
-        setActiveStep(activeStep + 1);
-      });
-    } catch (err: unknown) {
-      console.log("error in action: " + err?.toString())
+  const handleSubmit = async () => {
+    const property: TProperty = {
+      title: title,
+      purpose: purpose,
+      price: parseInt(price),
+      country: country,
+      city: city,
+      address: address,
+      rooms: parseInt(rooms),
+      baths: parseInt(baths),
+      area: parseInt(area)
     }
-
-  };
+    await PostProperty(property);
+    setActiveStep(activeStep + 1);
+  }
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);

@@ -1,13 +1,13 @@
 import { TComment } from "./TComment"
 
 export type TProperty = {
-    _id: string,
-    ownerID: string,
-    purpose: string,
+    _id?: string,
+    ownerID?: string,
+    purpose?: string,
     price: number,
-    product: string,
-    productLabel: string,
-    rentFrequency: string,
+    product?: string,
+    productLabel?: string,
+    rentFrequency?: string,
     title: string,
     rooms: number,
     baths: number,
@@ -15,14 +15,14 @@ export type TProperty = {
     city: string,
     address: string,
     area: number,
-    phoneNumber: {
+    phoneNumber?: {
         mobile: string,
         phone: string,
         whatsapp: string
     },
-    contactName: string,
-    name: string,
-    coverPhoto: {
+    contactName?: string,
+    name?: string,
+    coverPhoto?: {
         url: string
     },
     comments?: TComment[]

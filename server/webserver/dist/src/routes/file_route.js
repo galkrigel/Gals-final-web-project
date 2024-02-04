@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const multer_1 = __importDefault(require("multer"));
-// const base = "http://" + process.env.DOMAIN_BASE + ":" + process.env.PORT + "/";
 const base = "http://localhost:3001/";
 const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
@@ -14,7 +13,7 @@ const storage = multer_1.default.diskStorage({
     },
     filename: function (req, file, cb) {
         const ext = file.originalname.split('.')
-            .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
+            .filter(Boolean)
             .slice(1)
             .join('.');
         cb(null, Date.now() + "." + ext);

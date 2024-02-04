@@ -8,7 +8,7 @@ import { Box, Button, CardActionArea } from '@mui/material';
 import styles from '../css/PropertyCard.module.css';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../enums/routers';
-
+import { DeletePropertyById } from '../services/property-service';
 
 interface Props {
     property: TProperty;
@@ -19,38 +19,24 @@ const PropertyCard = (props: Props) => {
     const connectedUserId = localStorage.getItem("_id") ?? '';
     const navigate = useNavigate();
 
-    const onDelete = () => {
-        const token = localStorage.getItem("refreshToken") ?? '';
-        try {
-            fetch(`http://localhost:3001/property/${props.property._id}`, {
-                method: 'DELETE',
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                }
-            }).then(function (response) {
-                return response.text()
-            }).then(function (body) {
-                props.onDeleteProperty(props.property._id);
-                console.log('delete successful', body);
-            });
-        } catch (err: unknown) {
-            console.log("error in delete: " + err?.toString())
-        }
+    const onDelete = async () => {
+        await DeletePropertyById(props.property._id!);
+        props.onDeleteProperty(props.property._id!);
+
     };
 
     const handlePropertyClick = () => {
         if (props.property._id != null)
             navigate(Routers.Property + `/${props.property._id}`);
         else
-            console.log("property _id is null, cant navigate");
+            console.log("property _id is null, can't navigate");
     }
 
     const handlePropertyEditClick = () => {
         if (props.property._id != null)
             navigate(Routers.EditProperty + `/${props.property._id}`);
         else
-            console.log("property _id is null, cant edit");
+            console.log("property _id is null, can't edit");
     }
 
     return (
@@ -90,7 +76,7 @@ const PropertyCard = (props: Props) => {
                     </Box>
                 </Box>
             </Box>
-            {connectedUserId == props.property.ownerID.toString() ? <Box>
+            {connectedUserId == props.property.ownerID!.toString() ? <Box>
                 <Button variant="contained" onClick={() => { handlePropertyEditClick() }}>
                     Edit
                 </Button>

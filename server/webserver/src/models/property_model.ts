@@ -4,19 +4,17 @@ export interface IProperty {
     _id?: string,
     ownerID: string;
     purpose?: string;
-    price: string;
+    price: number;
     title: string;
     country?: string;
     city?: string;
     address?: string;
-    rooms?: string;
-    baths?: string;
-    area?: string;
+    rooms?: number;
+    baths?: number;
+    area?: number;
     coverPhoto?: { url: string }
     phoneNumber?: { mobile: string, phone: string, whatsapp: string };
     comments?: Array<{ownerId: string, text: string}>;
-    // likes?: Array<{ ownerId: string }>;
-
 }
 
 const propertySchema = new mongoose.Schema<IProperty>({
@@ -43,17 +41,17 @@ const propertySchema = new mongoose.Schema<IProperty>({
         type: { mobile: String, phone: String, whatsapp: String }
     },
     price: {
-        type: String,
+        type: Number,
         required: true,
     },
     rooms: {
-        type: String,
+        type: Number,
     },
     baths: {
-        type: String,
+        type: Number,
     },
     area: {
-        type: String,
+        type: Number,
     },
     title: {
         type: String,

@@ -1,6 +1,6 @@
-import {apiPost} from "./api";
+import { apiPost } from "./api";
 
-export const uploadPhoto = async (photo: File ) => {
+export const uploadPhoto = async (photo: File) => {
     const formData = new FormData();
     if (photo) {
         formData.append("file", photo);

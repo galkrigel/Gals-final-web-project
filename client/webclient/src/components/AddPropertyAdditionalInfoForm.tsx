@@ -2,7 +2,6 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Input from '@mui/material/Input';
 
 interface Props {
     changeAddress: (initialState: string) => void;
@@ -59,6 +58,7 @@ export default function AddPropertyAdditionalInfoForm(props: Props) {
                         onChange={(event) => props.changeArea(event.target.value)}
                         id="area"
                         label="area"
+                        type="number"
                         fullWidth
                         autoComplete="2222"
                         variant="standard"

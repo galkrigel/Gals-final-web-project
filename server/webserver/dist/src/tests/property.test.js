@@ -39,14 +39,14 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
 const property = {
     ownerID: user._id,
     purpose: "for-rent",
-    price: "7700",
+    price: 7700,
     title: "Big offer !!! . . Amazing and cosy 1 Bedroom big apartment with Wi-Fi in the heart of Jumeirah Village Circle, Dubai.",
-    rooms: "1",
-    baths: "2",
+    rooms: 5,
+    baths: 2,
     country: "israel",
     city: "ashdod",
     address: "zahal",
-    area: "91.69530048",
+    area: 91.69530048,
 };
 describe("property tests", () => {
     const addProperty = (property) => __awaiter(void 0, void 0, void 0, function* () {
