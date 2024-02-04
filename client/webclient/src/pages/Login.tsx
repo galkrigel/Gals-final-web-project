@@ -5,8 +5,6 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { login } from '../store/UserIdSlice';
 import { TLoginData } from '../types/TLoginData';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../enums/routers';
@@ -14,7 +12,6 @@ import { useEffect, useState } from 'react';
 import { gapi } from 'gapi-script';
 import { CLIENT_ID, ERROR_COLOR } from '../utils/consts';
 import styles from '../css/Login.module.css';
-import LoginWithGoogle from '../components/LoginWithGoogle';
 import { Login as LoginFunc } from '../services/user-service';
 import { TUser } from '../types/TUser';
 
@@ -130,7 +127,6 @@ const Login = () => {
                     </Link>
                 </Box>
                 <p></p>
-                {/* <LoginWithGoogle /> */}
             </Box>
         </div>
     );

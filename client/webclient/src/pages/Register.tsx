@@ -15,7 +15,8 @@ import { uploadPhoto } from '../services/file-service';
 import { Register as RegisterFunc } from '../services/user-service';
 import { TUser } from '../types/TUser';
 import { ERROR_COLOR } from '../utils/consts';
-
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { googleSignin } from '../services/user-service';
 
 const ERROR_MESSAGE = "There was a problem to register. ";
 
@@ -65,6 +66,22 @@ const Register = () => {
     const selectImg = () => {
         fileInputRef.current?.click();
     }
+
+    const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
+        try {
+            const res = await googleSignin(credentialResponse);
+            console.log("google sign in: " + res);
+        } catch (err) {
+            console.log("error in sign in with google: " + err);
+        }
+
+    }
+
+    const onGoogleLoginError = () => {
+
+    }
+
+
     return (
         <div className={styles.register}>
             <Box
@@ -148,7 +165,12 @@ const Register = () => {
                         Already have an account? Sign in
                     </Link>
                 </Box>
+
+                <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginError} />
+
             </Box>
+
+            {/* <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginError} /> */}
         </div>
     );
 };

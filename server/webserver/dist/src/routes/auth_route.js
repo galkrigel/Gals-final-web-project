@@ -31,6 +31,7 @@ const auth_controller_1 = __importDefault(require("../controllers/auth_controlle
  *                 type: string
  */
 router.post("/register", auth_controller_1.default.register);
+router.post("/google", auth_controller_1.default.googleSignin);
 /**
  * @swagger
  * /auth/login:

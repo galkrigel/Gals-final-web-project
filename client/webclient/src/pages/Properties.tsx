@@ -14,7 +14,6 @@ const Properties = () => {
     const [showUserProperties, setShowUserProperties] = useState<boolean>(false);
     let loadedData;
     let propertiesFromApi: TProperty[];
-    const token = localStorage.getItem("refreshToken") ?? '';
     const _id = localStorage.getItem("_id") ?? '';
 
 

@@ -1,3 +1,4 @@
+import { CredentialResponse } from "@react-oauth/google";
 import { TUser } from "../types/TUser";
 import { apiGet, apiPost, headersWithAuth, headersWithoutAuth } from "./api";
 
@@ -61,6 +62,23 @@ export const GetUserById = async (_id: string) => {
                 return response.json()
             }).then(function (body) {
                 console.log('getting user profile successful', body);
+                return body;
+
+            });
+    } catch (err: unknown) {
+        console.log("error in action get user profile: " + err?.toString())
+    }
+}
+
+export const googleSignin = (credentialResponse: CredentialResponse) => {
+ try {
+    console.log("cre: " +JSON.stringify(credentialResponse));
+        return apiPost(`auth/google`, headersWithoutAuth, JSON.stringify(credentialResponse))
+            .then(function (response) {
+                return response.json()
+            }).then(function (body) {
+                console.log("body: " +body);
+                console.log('register with google profile successful', body);
                 return body;
 
             });
