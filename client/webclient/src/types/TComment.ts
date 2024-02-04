@@ -1,5 +1,5 @@
 export type TComment= {
-    uesrId?: string,
-    comment: string
+    ownerId?: string,
+    text: string
    
 }

@@ -6,6 +6,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box, Button, CardActionArea } from '@mui/material';
 import styles from '../css/PropertyCard.module.css';
+import { useNavigate } from 'react-router-dom';
+import { Routers } from '../enums/routers';
 
 
 interface Props {
@@ -15,6 +17,7 @@ interface Props {
 
 const PropertyCard = (props: Props) => {
     const connectedUserId = localStorage.getItem("_id") ?? '';
+    const navigate = useNavigate();
 
     const onDelete = () => {
         const token = localStorage.getItem("refreshToken") ?? '';
@@ -37,8 +40,18 @@ const PropertyCard = (props: Props) => {
     };
 
     const handlePropertyClick = () => {
+        if (props.property._id != null)
+            navigate(Routers.Property + `/${props.property._id}`);
+        else
+            console.log("property _id is null, cant navigate");
     }
 
+    const handlePropertyEditClick = () => {
+        if (props.property._id != null)
+            navigate(Routers.EditProperty + `/${props.property._id}`);
+        else
+            console.log("property _id is null, cant edit");
+    }
 
     return (
         <Card sx={{ display: 'flex', justifyContent: 'space-between' }} className={styles.card}>
@@ -51,7 +64,7 @@ const PropertyCard = (props: Props) => {
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column' }} className={styles.box}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
-                        <CardActionArea onClick={() => { }}>
+                        <CardActionArea onClick={() => { handlePropertyClick() }}>
                             <Typography component="div" variant="h5">
                                 {props.property.title}
                             </Typography>
@@ -65,6 +78,12 @@ const PropertyCard = (props: Props) => {
                         <Typography variant="subtitle1" color="text.secondary" component="div">
                             price: {props.property.price ?? ''}$
                         </Typography>
+
+                        {props.property.comments?.length == 0 || !props.property.comments ?
+                            <Typography variant="subtitle2" color="text.secondary" component="div">
+                                no comments</Typography> :
+                            <Typography variant="subtitle2" color="text.secondary" component="div">{props.property.comments.length} comments</Typography>}
+
                     </CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
 
@@ -72,7 +91,7 @@ const PropertyCard = (props: Props) => {
                 </Box>
             </Box>
             {connectedUserId == props.property.ownerID.toString() ? <Box>
-                <Button variant="contained" onClick={() => { }}>
+                <Button variant="contained" onClick={() => { handlePropertyEditClick() }}>
                     Edit
                 </Button>
                 <Button variant="contained" onClick={() => { onDelete() }}>

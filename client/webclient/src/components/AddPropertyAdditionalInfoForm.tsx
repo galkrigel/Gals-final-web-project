@@ -34,6 +34,7 @@ export default function AddPropertyAdditionalInfoForm(props: Props) {
                         onChange={(event) => props.changeRooms(event.target.value)}
                         id="rooms"
                         label="rooms"
+                        type="number"
                         fullWidth
                         autoComplete="5"
                         variant="standard"
@@ -45,6 +46,7 @@ export default function AddPropertyAdditionalInfoForm(props: Props) {
                         onChange={(event) => props.changeBaths(event.target.value)}
                         id="baths"
                         label="baths"
+                        type="number"
                         fullWidth
                         autoComplete="2"
                         variant="standard"

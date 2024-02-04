@@ -49,6 +49,7 @@ export default function AddPropertyBasicInfoForm(props: Props) {
             onChange={(event) => props.changePrice(event.target.value)}
             id="price"
             name="price"
+            type="number"
             label="price"
             fullWidth
             autoComplete="100000"

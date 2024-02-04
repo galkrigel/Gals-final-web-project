@@ -73,7 +73,7 @@ const Properties = () => {
             <LoadingSpinner /> :
             <div>
                 <ShowBy data={data} setData={changeData} />
-                <FormGroup>
+                <FormGroup sx={{ m: 1, minWidth: 120 }}>
                     <FormControlLabel control={<Switch checked={showUserProperties}
                         onChange={handleSwitchChange}
                         inputProps={{ 'aria-label': 'controlled' }} />} label="show properties that posted by me" />

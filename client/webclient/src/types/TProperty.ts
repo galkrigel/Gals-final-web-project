@@ -11,6 +11,9 @@ export type TProperty = {
     title: string,
     rooms: number,
     baths: number,
+    country: string,
+    city: string,
+    address: string,
     area: number,
     phoneNumber: {
         mobile: string,

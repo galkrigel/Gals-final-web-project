@@ -9,6 +9,8 @@ import AddProperty from './pages/AddProperty';
 import Register from './pages/Register';
 import EditProfile from './pages/EditProfile';
 import ProtectedRoute from './components/ProtectedRoute';
+import { Property } from './pages/Property';
+import EditProperty from './pages/EditProperty';
 
 const App = () => {
   return (
@@ -24,7 +26,12 @@ const App = () => {
         <Route path={Routers.EditProfile}
           element={<ProtectedRoute>{<EditProfile />}</ProtectedRoute>}
         />
-     
+        <Route path={`${Routers.Property}/:propertyId`}
+          element={<ProtectedRoute>{<Property />}</ProtectedRoute>}
+        />
+        <Route path={`${Routers.EditProperty}/:propertyId`}
+          element={<ProtectedRoute>{<EditProperty />}</ProtectedRoute>}
+        />
         <Route path={Routers.Login} element={<Login />} />
         <Route path={Routers.Register} element={<Register />} />
       </Routes>

@@ -44,6 +44,16 @@ const propertySchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    comments: [{
+            ownerId: {
+                type: String,
+                required: true,
+            },
+            text: {
+                type: String,
+                required: true,
+            }
+        }],
 });
 exports.default = mongoose_1.default.model("Properties", propertySchema);
 //# sourceMappingURL=property_model.js.map

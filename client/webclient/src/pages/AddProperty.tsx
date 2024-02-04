@@ -67,11 +67,9 @@ export default function AddProperty() {
       }
       }).then(function (response) {
         console.log("res:" + response)
-
         return response.json()
       }).then(function (body) {
         console.log("body:" + body)
-
         console.log('post property successful', body);
         setActiveStep(activeStep + 1);
       });

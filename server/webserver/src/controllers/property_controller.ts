@@ -12,6 +12,8 @@ class PropertyController extends BaseController<IProperty>{
         console.log("post property:" + req.body);
         const _id = req.user._id;
         req.body.ownerID = _id;
+        req.body.comments = [];
+        req.body.likes = [];
         super.post(req, res);
     }
 }

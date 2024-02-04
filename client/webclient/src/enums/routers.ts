@@ -4,4 +4,6 @@ export enum Routers {
     EditProfile = '/editProfile',
     AddProperty = '/addProperty',
     Register = '/register',
+    Property = '/property',
+    EditProperty = '/editProperty',
 }

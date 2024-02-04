@@ -123,14 +123,14 @@ export default function EditProfile() {
                                     value={editedProfile?.email ?? ''}
                                     fullWidth
                                     variant="standard"
-                                    onChange={(val) => { setEditedProfile({ ...userProfile, email: val.target.value }) }}
+                                    onChange={(val) => { setEditedProfile({ ...editedProfile, email: val.target.value }) }}
                                 />
                             </Grid>
 
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
-                                    onChange={(val) => { setEditedProfile({ ...userProfile, firstName: val.target.value }) }}
+                                    onChange={(val) => { setEditedProfile({ ...editedProfile, firstName: val.target.value }) }}
                                     id="first name"
                                     name="first name"
                                     label="first name"
@@ -143,7 +143,7 @@ export default function EditProfile() {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
-                                    onChange={(val) => { setEditedProfile({ ...userProfile, secondName: val.target.value }) }}
+                                    onChange={(val) => { setEditedProfile({ ...editedProfile, secondName: val.target.value }) }}
                                     id="second name"
                                     name="second name"
                                     label="second name"

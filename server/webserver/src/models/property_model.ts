@@ -12,8 +12,10 @@ export interface IProperty {
     rooms?: string;
     baths?: string;
     area?: string;
-    coverPhoto?: { url: string },
-    phoneNumber?: { mobile: string, phone: string, whatsapp: string }
+    coverPhoto?: { url: string }
+    phoneNumber?: { mobile: string, phone: string, whatsapp: string };
+    comments?: Array<{ownerId: string, text: string}>;
+    // likes?: Array<{ ownerId: string }>;
 
 }
 
@@ -57,6 +59,16 @@ const propertySchema = new mongoose.Schema<IProperty>({
         type: String,
         required: true,
     },
+    comments: [{
+        ownerId: {
+            type: String,
+            required: true,
+        },
+        text: {
+            type: String,
+            required: true,
+        }
+    }],
 });
 
 export default mongoose.model<IProperty>("Properties", propertySchema);
