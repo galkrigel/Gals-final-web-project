@@ -9,6 +9,8 @@ import styles from '../css/PropertyCard.module.css';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../enums/routers';
 import { DeletePropertyById } from '../services/property-service';
+import PropertyDefault from '../assets/propertyDefault.jpeg';
+
 
 interface Props {
     property: TProperty;
@@ -39,13 +41,21 @@ const PropertyCard = (props: Props) => {
             console.log("property _id is null, can't edit");
     }
 
+    const imgUrl = () => {
+        if (props.property.coverPhoto?.url)
+            return props.property.coverPhoto?.url;
+        else if (props.property.imgUrl && props.property.imgUrl != "")
+            return props.property.imgUrl;
+        else return PropertyDefault;
+    }
+
     return (
         <Card sx={{ display: 'flex', justifyContent: 'space-between' }} className={styles.card}>
             <Box sx={{ display: 'flex', flexDirection: 'row' }} >
                 <CardMedia
                     component="img"
                     sx={{ width: 151 }}
-                    image={props.property.coverPhoto?.url ?? ''}
+                    image={imgUrl()}
                     alt="property image"
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column' }} className={styles.box}>

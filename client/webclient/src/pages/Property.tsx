@@ -9,6 +9,7 @@ import { Box, Button } from '@mui/material';
 import Comment from "../components/Comment";
 import Grid from '@mui/material/Grid';
 import { GetPropertyById, PutPropertyById } from "../services/property-service";
+import PropertyDefault from '../assets/propertyDefault.jpeg';
 
 export const Property = () => {
     const { propertyId } = useParams();
@@ -33,18 +34,26 @@ export const Property = () => {
         setProperty({ ...property, comments: property.comments })
     }
 
+    const imgUrl = () => {
+        if (property.coverPhoto?.url)
+            return property.coverPhoto?.url;
+        else if (property.imgUrl && property.imgUrl != "")
+            return property.imgUrl;
+        else return PropertyDefault;
+    }
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', m: 2 }}>
             <Box
                 component="img"
                 sx={{
-                    height: 100,
-                    width: 350,
+                    height: 400,
+                    width: 300,
                     maxHeight: { xs: 233, md: 167 },
                     maxWidth: { xs: 350, md: 250 },
                 }}
                 alt="The house from the offer."
-                src={property?.coverPhoto?.url ?? ''}
+                src={imgUrl()}
             />
 
             <Grid container spacing={1}>
