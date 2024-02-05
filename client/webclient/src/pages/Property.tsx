@@ -39,6 +39,7 @@ export const Property = () => {
 
     const onAddComment = async () => {
         await PostComment(comment);
+        setComment({ userId: _id, propertyId: propertyId ?? '', text: '' });
         setPropertyComments([...propertyComments, comment]);
     }
 
@@ -131,6 +132,7 @@ export const Property = () => {
                 id="outlined-basic"
                 label="Add a comment"
                 variant="outlined"
+                value={comment.text}
                 onChange={(val) => { setComment({ ...comment, text: val.target.value }) }}
             />
             <Button variant="contained" onClick={() => { onAddComment() }}>
