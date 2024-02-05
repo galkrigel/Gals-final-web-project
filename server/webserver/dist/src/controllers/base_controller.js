@@ -70,7 +70,6 @@ class BaseController {
                 console.log("base put error: " + err);
                 res.status(406).send("base fail: " + err.message);
             }
-            //res.send("put student by id: " + req.params.id);
         });
     }
     deleteById(req, res) {

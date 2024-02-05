@@ -21,7 +21,7 @@ export const getComments = async () => {
 export const GetCommentsByPropertyId = async (propertyId: string) => {
     try {
         const token = localStorage.getItem("refreshToken") ?? '';
-        return apiGet(`comment/${propertyId}`, headersWithAuth(token))
+        return apiGet(`comment/byId/${propertyId}`, headersWithAuth(token))
             .then(function (response) {
                 return response.json()
             }).then(function (body) {

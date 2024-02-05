@@ -14,32 +14,13 @@ const get = async (req: Request, res: Response) => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-
         const data = await response.json();
 
-        console.log("params:" + limit);
-        res.send(data);
+        res.status(200).send(data);
     } catch (error) {
         res.status(500).send({ message: 'Error fetching data' });
     }
 }
-
-
-//    const get =  async (req: Request, res: Response) => {
-//         try {
-//             const response = await axios.get(EXTERNAL_API_URL, {
-//                 params: {
-//                     limit: req.query.limit ?? 10,
-//                     offset: req.query.offset ?? 0,
-//                 },
-//             });
-//             console.log("params:" + req.query.limit);
-//             //console.log('external properties: ', response.data);
-//             res.send(response.data);
-//         } catch (error) {
-//             res.status(500).send({ message: 'Error fetching data' });
-//         }
-//     }
 
 
 export default {

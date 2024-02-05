@@ -175,5 +175,9 @@ describe("Auth tests", () => {
             .set("Authorization", "JWT " + refreshToken);
         expect(res3.statusCode).toBe(200);
     }));
+    test("Test login with google without email", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app).post("/auth/google").send({ email: '' });
+        expect(response.statusCode).toBe(400);
+    }));
 });
 //# sourceMappingURL=auth.test.js.map

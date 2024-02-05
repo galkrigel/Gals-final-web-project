@@ -4,18 +4,16 @@ import Comment, { IComment } from '../models/comment_model';
 const getByPropertyId = async (req: Request, res: Response) => {
     console.log("get comment by property");
     try {
-        if (req.params.propertyId) {
-            console.log("get comment by property inside if" + req.params.propertyId);
+       // if (req.params.propertyId) {
             const comments = await Comment.find({ propertyId: req.params.propertyId });
-            console.log("comments: " + comments);
             res.status(200).send(comments);
-        } else {
-            console.log("problem1 with get the comments");
-            res.status(500).json({ message: "propertyId is required" });
-        }
+        // } else {
+        //     console.log("problem1 with get the comments");
+        //     res.status(500).json({ message: "propertyId is required" });
+        // }
     } catch (err) {
         console.log("problem2 with get the comments");
-        res.status(500).json({ message: err.message });
+        res.status(404).json({ message: err.message });
     }
 }
 

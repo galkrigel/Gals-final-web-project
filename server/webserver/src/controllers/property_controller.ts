@@ -16,16 +16,16 @@ class PropertyController extends BaseController<IProperty>{
         super.post(req, res);
     }
 
-    async addComment(req: Request, res: Response) {
-        console.log("property: add comment to property: ");
-        try {
-            const obj = await Property.findOneAndUpdate({_id: req.params.propertyId}, {$inc: {comments: 1}}, {new: true});
-            res.status(201).send(obj);
-        } catch (err) {
-            console.log("base put error: " + err);
-            res.status(406).send("base fail: " + err.message);
-        }
-    }
+    // async addComment(req: Request, res: Response) {
+    //     console.log("property: add comment to property: ");
+    //     try {
+    //         const obj = await Property.findOneAndUpdate({_id: req.params.propertyId}, {$inc: {comments: 1}}, {new: true});
+    //         res.status(201).send(obj);
+    //     } catch (err) {
+    //         console.log("base put error: " + err);
+    //         res.status(406).send("base fail: " + err.message);
+    //     }
+    // }
 }
 
 export default new PropertyController();

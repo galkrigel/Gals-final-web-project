@@ -132,6 +132,7 @@ router.get("/:id", property_controller_1.default.getById.bind(property_controlle
  *               $ref: '#/components/schemas/Property'
  */
 router.post("/", auth_middleware_1.default, property_controller_1.default.post.bind(property_controller_1.default));
+// router.put("/addComment/:propertyId", authMiddleware, propertyController.addComment.bind(propertyController));
 /**
  * @swagger
  * /property/{id}:

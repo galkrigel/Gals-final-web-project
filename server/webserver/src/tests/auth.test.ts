@@ -197,4 +197,9 @@ describe("Auth tests", () => {
     expect(res3.statusCode).toBe(200);
   });
   
+  test("Test login with google without email", async () => {
+    const response = await request(app).post("/auth/google").send({email:''});
+    expect(response.statusCode).toBe(400);
+  });
+
 });

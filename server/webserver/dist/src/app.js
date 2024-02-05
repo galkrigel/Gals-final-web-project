@@ -10,9 +10,11 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const user_route_1 = __importDefault(require("./routes/user_route"));
+const comment_route_1 = __importDefault(require("./routes/comment_route"));
 const file_route_1 = __importDefault(require("./routes/file_route"));
 const property_route_1 = __importDefault(require("./routes/property_route"));
 const auth_route_1 = __importDefault(require("./routes/auth_route"));
+const external_properties_route_1 = __importDefault(require("./routes/external_properties_route"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const initApp = () => {
@@ -48,6 +50,8 @@ const initApp = () => {
             app.use("/file", file_route_1.default);
             app.use("/property", property_route_1.default);
             app.use("/auth", auth_route_1.default);
+            app.use("/comment", comment_route_1.default);
+            app.use("/external", external_properties_route_1.default);
             app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(specs));
             app.use("/public", express_1.default.static("public"));
             resolve(app);
