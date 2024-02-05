@@ -8,6 +8,7 @@ import userRoute from "./routes/user_route";
 import fileRoute from "./routes/file_route";
 import propertyRoute from "./routes/property_route";
 import authRoute from "./routes/auth_route";
+import externalPropertiesRoute from "./routes/external_properties_route";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 
@@ -46,6 +47,7 @@ const initApp = (): Promise<Express> => {
       app.use("/file", fileRoute);
       app.use("/property", propertyRoute);
       app.use("/auth", authRoute);
+      app.use("/external", externalPropertiesRoute);
       app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
       app.use("/public", express.static("public"));
       resolve(app);

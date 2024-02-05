@@ -9,6 +9,18 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { getProperties } from "../services/property-service";
 const Properties = () => {
+
+    const [externalProperties, setExternalProperties] = useState<any[]>([]);
+    const [userProperties, setUserProperties] = useState<any[]>([]);
+
+    // UseEffect to get data from the server 
+    useEffect(() => {
+        fetch('http://localhost:3001/properties/getFromExternal').then(res => res.json()).then(data => {
+            console.log(data);
+        });
+    }, []);
+
+    
     const [data, setData] = useState<TProperty[]>([]);
     const [filteredData, setFilteredData] = useState<TProperty[]>([]);
     const [showUserProperties, setShowUserProperties] = useState<boolean>(false);
