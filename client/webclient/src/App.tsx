@@ -26,7 +26,7 @@ const App = () => {
         <Route path={Routers.EditProfile}
           element={<ProtectedRoute>{<EditProfile />}</ProtectedRoute>}
         />
-        <Route path={`${Routers.Property}/:propertyId`}
+        <Route path={`${Routers.Property}/:propertyId/:isExternal`}
           element={<ProtectedRoute>{<Property />}</ProtectedRoute>}
         />
         <Route path={`${Routers.EditProperty}/:propertyId`}

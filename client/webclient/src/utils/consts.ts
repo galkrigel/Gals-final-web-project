@@ -8,6 +8,8 @@ const CLIENT_ID: string = '690078499532-dknbcb8qpo9a04rq7mn12otmiqsqnqqp.apps.go
 const SUCCESS_COLOR = colors.green[400];
 const ERROR_COLOR = colors.red[400];
 
+
+const EXTERNAL_API_LIMIT=10;
 // const headersWithAuth = {
 //     "Content-Type": "application/json",
 //     "authorization": `Bearer ${token}`
@@ -17,4 +19,4 @@ const ERROR_COLOR = colors.red[400];
 // }
 
 
-export { CLIENT_ID, SUCCESS_COLOR, ERROR_COLOR};
+export { CLIENT_ID, SUCCESS_COLOR, ERROR_COLOR, EXTERNAL_API_LIMIT};

@@ -133,6 +133,8 @@ router.get("/:id", propertyController.getById.bind(propertyController));
  */
 router.post("/", authMiddleware, propertyController.post.bind(propertyController));
 
+router.put("/addComment/:propertyId", authMiddleware, propertyController.addComment.bind(propertyController));
+
 /**
  * @swagger
  * /property/{id}:

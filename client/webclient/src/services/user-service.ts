@@ -1,6 +1,7 @@
 import { CredentialResponse } from "@react-oauth/google";
 import { TUser } from "../types/TUser";
 import { apiGet, apiPost, apiPut, headersWithAuth, headersWithoutAuth } from "./api";
+import { Routers } from "../enums/routers";
 
 // user: email, password, imgUrl?
 export const Register = async (user: TUser) => {
@@ -10,6 +11,13 @@ export const Register = async (user: TUser) => {
                 return response.json()
             }).then(function (body) {
                 console.log('register successful', body);
+                const access = body.accessToken;
+                const refresh = body.refreshToken;
+                const _id = body._id;
+
+                localStorage.setItem("accessToken", access);
+                localStorage.setItem("refreshToken", refresh);
+                localStorage.setItem("_id", _id);
             });
     } catch (err: unknown) {
         console.log("error in register: " + err?.toString())
@@ -79,6 +87,15 @@ export const googleSignin = (credentialResponse: CredentialResponse) => {
             }).then(function (body) {
                 console.log("body: " +body);
                 console.log('register with google profile successful', body);
+
+                const access = body.accessToken;
+                const refresh = body.refreshToken;
+                const _id = body._id;
+
+                localStorage.setItem("accessToken", access);
+                localStorage.setItem("refreshToken", refresh);
+                localStorage.setItem("_id", _id);
+
                 return body;
 
             });

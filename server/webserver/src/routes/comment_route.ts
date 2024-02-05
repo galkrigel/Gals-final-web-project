@@ -40,9 +40,11 @@ import authMiddleware from "../common/auth_middleware";
 
      security:
 
-router.get("/:ownerId", authMiddleware, commentController.getById.bind(commentController));
+router.get("/:propertyId", authMiddleware, commentController.getByPropertyId.bind(commentController));
  
 router.post("/", authMiddleware, commentController.post.bind(commentController));
+
+router.get("/", authMiddleware, commentController.get.bind(commentController));
 
 
 export default router;

@@ -5,6 +5,7 @@ import cors from 'cors';
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import userRoute from "./routes/user_route";
+import commentRoute from "./routes/comment_route";
 import fileRoute from "./routes/file_route";
 import propertyRoute from "./routes/property_route";
 import authRoute from "./routes/auth_route";
@@ -47,6 +48,7 @@ const initApp = (): Promise<Express> => {
       app.use("/file", fileRoute);
       app.use("/property", propertyRoute);
       app.use("/auth", authRoute);
+      app.use("/comment", commentRoute);
       app.use("/external", externalPropertiesRoute);
       app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
       app.use("/public", express.static("public"));

@@ -14,7 +14,7 @@ export interface IProperty {
     area?: number;
     coverPhoto?: { url: string }
     phoneNumber?: { mobile: string, phone: string, whatsapp: string };
-    comments?: Array<{ownerId: string, text: string}>;
+    comments?: number;
     imgUrl?: string;
 }
 
@@ -58,20 +58,14 @@ const propertySchema = new mongoose.Schema<IProperty>({
         type: String,
         required: true,
     },
-    comments: [{
-        ownerId: {
-            type: String,
-            required: true,
-        },
-        text: {
-            type: String,
-            required: true,
-        }
-    }],
+    comments: {
+        type: Number,
+        required: false,
+    },
     imgUrl: {
         type: String,
         required: false,
-      },
+    },
 });
 
 export default mongoose.model<IProperty>("Properties", propertySchema);

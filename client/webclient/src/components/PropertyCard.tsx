@@ -13,8 +13,10 @@ import PropertyDefault from '../assets/propertyDefault.jpeg';
 
 
 interface Props {
+    isExternal: boolean;
     property: TProperty;
     onDeleteProperty: (_id: string) => void;
+    numberOfComments: number;
 }
 
 const PropertyCard = (props: Props) => {
@@ -29,7 +31,7 @@ const PropertyCard = (props: Props) => {
 
     const handlePropertyClick = () => {
         if (props.property._id != null)
-            navigate(Routers.Property + `/${props.property._id}`);
+            navigate(Routers.Property + `/${props.property._id}` + `/${props.isExternal}`);
         else
             console.log("property _id is null, can't navigate");
     }
@@ -42,9 +44,7 @@ const PropertyCard = (props: Props) => {
     }
 
     const imgUrl = () => {
-        if (props.property.coverPhoto?.url)
-            return props.property.coverPhoto?.url;
-        else if (props.property.imgUrl && props.property.imgUrl != "")
+        if (props.property.imgUrl && props.property.imgUrl != "")
             return props.property.imgUrl;
         else return PropertyDefault;
     }
@@ -75,10 +75,10 @@ const PropertyCard = (props: Props) => {
                             price: {props.property.price ?? ''}$
                         </Typography>
 
-                        {props.property.comments?.length == 0 || !props.property.comments ?
+                        {(props.numberOfComments && props.numberOfComments > 0) ?
+                            <Typography variant="subtitle2" color="text.secondary" component="div">{props.numberOfComments?.toString()} comments</Typography> :
                             <Typography variant="subtitle2" color="text.secondary" component="div">
-                                no comments</Typography> :
-                            <Typography variant="subtitle2" color="text.secondary" component="div">{props.property.comments.length} comments</Typography>}
+                                no comments</Typography>}
 
                     </CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>

@@ -8,36 +8,42 @@ import Typography from '@mui/material/Typography';
 import { Box, Button } from '@mui/material';
 import Comment from "../components/Comment";
 import Grid from '@mui/material/Grid';
-import { GetPropertyById, PutPropertyById } from "../services/property-service";
+import { GetPropertyById, getPropertyFromExternalApi } from "../services/property-service";
 import PropertyDefault from '../assets/propertyDefault.jpeg';
+import { GetCommentsByPropertyId, PostComment, } from "../services/comment-service";
 
 export const Property = () => {
-    const { propertyId } = useParams();
+    const { propertyId, isExternal } = useParams();
     const _id = localStorage.getItem("_id") ?? '';
     const [property, setProperty] = useState<TProperty>({} as TProperty);
-    const [comment, setComment] = useState<TComment>({ ownerId: _id, text: '' });
+    const [comment, setComment] = useState<TComment>({ userId: _id, propertyId: propertyId ?? '', text: '' });
+    const [propertyComments, setPropertyComments] = useState<TComment[]>([]);
 
-    const onLoad = async () => {
-        const res = await GetPropertyById(propertyId ?? '');
-        setProperty(res);
-    };
+
+    const getProperty = async () => {
+        let p: TProperty;
+        if (isExternal == "true") {
+            p = await getPropertyFromExternalApi(propertyId ?? '');
+        }
+        else {
+            p = await GetPropertyById(propertyId ?? '');
+        }
+        const comments = await GetCommentsByPropertyId(propertyId ?? '');
+        setProperty(p);
+        setPropertyComments(comments);
+    }
+
     useEffect(() => {
-        onLoad();
+        getProperty();
     }, []);
 
     const onAddComment = async () => {
-        if (property.comments == null || property.comments == undefined) {
-            property.comments = [];
-        }
-        property.comments.push(comment);
-        await PutPropertyById(propertyId ?? '', property);
-        setProperty({ ...property, comments: property.comments })
+        await PostComment(comment);
+        setPropertyComments([...propertyComments, comment]);
     }
 
     const imgUrl = () => {
-        if (property.coverPhoto?.url)
-            return property.coverPhoto?.url;
-        else if (property.imgUrl && property.imgUrl != "")
+        if (property.imgUrl && property.imgUrl != "")
             return property.imgUrl;
         else return PropertyDefault;
     }
@@ -111,12 +117,12 @@ export const Property = () => {
             </Grid>
 
             <p></p>
-            <p></p>
-            {property?.comments == null || property?.comments == undefined || property?.comments.length == 0 ?
+
+            {propertyComments == null || propertyComments == undefined || propertyComments.length == 0 ?
                 <Typography gutterBottom variant="h5" component="div">No comments yet</Typography> :
                 <div>
                     <Typography gutterBottom variant="h5" component="div">Comments:</Typography>
-                    {property?.comments?.map((item: TComment, i: number) => (
+                    {propertyComments?.map((item: TComment, i: number) => (
                         <Comment key={i} comment={item} />
                     ))}
                 </div>

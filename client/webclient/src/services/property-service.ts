@@ -1,6 +1,29 @@
+import { Method } from "../enums/methods";
 import { TProperty } from "../types/TProperty";
 import { apiDelete, apiGet, apiPost, apiPut, headersWithAuth } from "./api";
+import { EXTERNAL_API_LIMIT } from '../utils/consts';
 
+export const getPropertyFromExternalApi = async (propertyId: string) => {
+    console.log("from external");
+    return fetch(`http://localhost:3001/external/properties?limit=${EXTERNAL_API_LIMIT}&offset=0`)
+        .then(function (response) {
+            return response.json()
+        }).then(function (body) {
+            const property = body.filter((p: any) => p._id == propertyId);
+            console.log(property[0]);
+            return property[0];
+        });
+}
+
+export const getPropertiesFromExternalApi = async () => {
+    console.log("from external");
+    return fetch(`http://localhost:3001/external/properties?limit=${EXTERNAL_API_LIMIT}&offset=0`)
+        .then(function (response) {
+            return response.json()
+        }).then(function (body) {
+            return body;
+        });
+}
 
 export const getProperties = async () => {
     try {
@@ -48,6 +71,24 @@ export const PostProperty = async (property: TProperty) => {
     }
 }
 
+// export const AddComment = async (propertyId: string) => {
+//     try {
+//         const token = localStorage.getItem("refreshToken") ?? '';
+//         return fetch(`http://localhost:3001/property/addComment/${propertyId}`, {
+//             method: Method.Put,
+//             headers: headersWithAuth(token),
+//         })
+//             .then(function (response) {
+//                 return response.json()
+//             }).then(function (body) {
+//                 console.log('add comment to property successful', body);
+//                 return body;
+//             });
+//     } catch (err: unknown) {
+//         console.log("error in add comment to property property: " + err?.toString())
+//     }
+// }
+
 export const GetPropertyById = async (_id: string) => {
     try {
         const token = localStorage.getItem("refreshToken") ?? '';
@@ -64,7 +105,7 @@ export const GetPropertyById = async (_id: string) => {
     }
 }
 
-export const PutPropertyById = async (_id: string, property:TProperty) => {
+export const PutPropertyById = async (_id: string, property: TProperty) => {
     try {
         const token = localStorage.getItem("refreshToken") ?? '';
         return apiPut(`property/${_id}`, headersWithAuth(token), JSON.stringify(property))

@@ -56,7 +56,6 @@ export class BaseController<ModelType>{
             console.log("base put error: " + err);
             res.status(406).send("base fail: " + err.message);
         }
-        //res.send("put student by id: " + req.params.id);
     }
 
     async deleteById(req: Request, res: Response) {

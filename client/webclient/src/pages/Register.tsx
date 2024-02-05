@@ -48,7 +48,7 @@ const Register = () => {
 
         try {
             await RegisterFunc(user);
-            navigate(Routers.Login);
+            navigate(Routers.Properties);
         } catch (err: unknown) {
             setMessage({ message: ERROR_MESSAGE, color: ERROR_COLOR });
         }
@@ -70,6 +70,7 @@ const Register = () => {
         try {
             const res = await googleSignin(credentialResponse);
             console.log("google sign in: " + res);
+            navigate(Routers.Properties);
         } catch (err) {
             console.log("error in sign in with google: " + err);
         }
@@ -169,7 +170,6 @@ const Register = () => {
 
             </Box>
 
-            {/* <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginError} /> */}
         </div>
     );
 };
