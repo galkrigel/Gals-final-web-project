@@ -1,6 +1,6 @@
 import { CredentialResponse } from "@react-oauth/google";
 import { TUser } from "../types/TUser";
-import { apiGet, apiPost, headersWithAuth, headersWithoutAuth } from "./api";
+import { apiGet, apiPost, apiPut, headersWithAuth, headersWithoutAuth } from "./api";
 
 // user: email, password, imgUrl?
 export const Register = async (user: TUser) => {
@@ -86,4 +86,21 @@ export const googleSignin = (credentialResponse: CredentialResponse) => {
         console.log("error in action get user profile: " + err?.toString())
     }
 }
+
+export const PutUserById = async (_id: string, user:TUser) => {
+    try {
+        const token = localStorage.getItem("refreshToken") ?? '';
+        return apiPut(`user/${_id}`, headersWithAuth(token), JSON.stringify(user))
+            .then(function (response) {
+                return response.json()
+            }).then(function (body) {
+                console.log('Edit user successful', body);
+                return body;
+
+            });
+    } catch (err: unknown) {
+        console.log("error in edit user profile: " + err?.toString())
+    }
+}
+
 

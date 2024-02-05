@@ -64,8 +64,8 @@ export default function Navbar() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography onClick={handleLogoClick} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Real estate site
+                    <Typography onClick={handleLogoClick} variant="h4" component="div" sx={{ flexGrow: 1 }}>
+                        Real estate experts
                     </Typography>
                     {isUserConnected ?
                         <Box sx={{ flexGrow: 0 }}>

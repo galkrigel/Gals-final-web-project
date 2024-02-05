@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import { TUser } from '../types/TUser';
 import ProfilePicture from '../components/ProfilePicture';
 import { SUCCESS_COLOR, ERROR_COLOR } from '../utils/consts';
+import { GetUserById, PutUserById } from '../services/user-service';
 
 
 const SUCCESS_MESSAGE = "User profile edited succesfully!";
@@ -19,60 +20,34 @@ const NO_CHANGES_MESSAGE = "You did not do any changes, so can not edit."
 
 
 export default function EditProfile() {
-    const token = localStorage.getItem("refreshToken") ?? '';
     const _id = localStorage.getItem("_id") ?? '';
-
-    const [userProfile, setUserProfile] = useState<TUser>({ _id: '' , email: '', firstName: '', secondName: ''});
-    const [editedProfile, setEditedProfile] = useState<TUser>({ _id: '', email: '', firstName: '', secondName: ''});
+    const [userProfile, setUserProfile] = useState<TUser>({ _id: '', email: '', firstName: '', secondName: '' });
+    const [editedProfile, setEditedProfile] = useState<TUser>({ _id: '', email: '', firstName: '', secondName: '' });
     const [message, setMessage] = useState<{ message: string, color: any }>({ message: '', color: '' });
-
 
     useEffect(() => {
         onLoad();
     }, [])
 
-    const onLoad = () => {
-        try {
-            fetch(`http://localhost:3001/user/${_id}`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                }
-            }).then(function (response) {
-                return response.json()
-            }).then(function (body) {
-                console.log('getting user profile successful', body);
-                setUserProfile(body);
-                setEditedProfile(body);
-            });
-        } catch (err: unknown) {
-            console.log("error in action get user profile: " + err?.toString())
-        }
+    const onLoad = async () => {
+        const res = await GetUserById(_id);
+        setUserProfile(res);
+        setEditedProfile(res);
     };
 
     const onSave = () => {
+        const user: TUser =
+        {
+            email: editedProfile.email ?? userProfile ?? '',
+            firstName: editedProfile.firstName ?? userProfile.firstName ?? '',
+            secondName: editedProfile.secondName ?? userProfile.secondName ?? '',
+        };
         try {
-            fetch(`http://localhost:3001/user/${_id}`, {
-                method: 'PUT',
-                body: JSON.stringify({
-                    email: editedProfile.email ?? userProfile ?? '',
-                    firstName: editedProfile.firstName ?? userProfile.firstName ?? '',
-                    secondName: editedProfile.secondName ?? userProfile.secondName ?? '',
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                }
-            }).then(function (response) {
-                return response.json();
-            }).then(function (body) {
-                setMessage({ message: SUCCESS_MESSAGE, color: SUCCESS_COLOR });
-                console.log('edit user profile successful', body);
-            });
-        } catch (err: unknown) {
+            PutUserById(_id, user);
+            setMessage({ message: SUCCESS_MESSAGE, color: SUCCESS_COLOR });
+
+        } catch (err) {
             setMessage({ message: ERROR_MESSAGE, color: ERROR_COLOR });
-            console.log("error in action edit: " + err?.toString())
         }
     };
 
@@ -95,7 +70,7 @@ export default function EditProfile() {
                             User's details
                         </Typography>
                         <p></p>
-                        <ProfilePicture isNavbar={false}  />
+                        <ProfilePicture isNavbar={false} />
 
                         <Grid container spacing={3}>
 

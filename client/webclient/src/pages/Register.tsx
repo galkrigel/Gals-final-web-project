@@ -50,7 +50,6 @@ const Register = () => {
             await RegisterFunc(user);
             navigate(Routers.Login);
         } catch (err: unknown) {
-            console.log("err in login " + err);
             setMessage({ message: ERROR_MESSAGE, color: ERROR_COLOR });
         }
     };

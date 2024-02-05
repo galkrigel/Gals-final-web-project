@@ -28,7 +28,7 @@ const initApp = (): Promise<Express> => {
 
   const corsOptions = {
     origin: 'http://localhost:5173',
-    
+
   };
   const promise = new Promise<Express>((resolve) => {
     const db = mongoose.connection;
@@ -41,7 +41,7 @@ const initApp = (): Promise<Express> => {
       // app.use(bodyParser.json());
       // app.use(bodyParser.urlencoded({ extended: true }));
       app.use(bodyParser.json({ limit: '50mb' }))
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }))
+      app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }))
       app.use("/user", userRoute);
       app.use("/file", fileRoute);
       app.use("/property", propertyRoute);

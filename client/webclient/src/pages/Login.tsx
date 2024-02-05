@@ -1,4 +1,3 @@
-//import {useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -8,9 +7,8 @@ import { useForm } from 'react-hook-form';
 import { TLoginData } from '../types/TLoginData';
 import { useNavigate } from 'react-router-dom';
 import { Routers } from '../enums/routers';
-import { useEffect, useState } from 'react';
-import { gapi } from 'gapi-script';
-import { CLIENT_ID, ERROR_COLOR } from '../utils/consts';
+import { useState } from 'react';
+import { ERROR_COLOR } from '../utils/consts';
 import styles from '../css/Login.module.css';
 import { Login as LoginFunc } from '../services/user-service';
 import { TUser } from '../types/TUser';
@@ -19,16 +17,6 @@ const ERROR_MESSAGE = "There was a problem to login. ";
 
 const Login = () => {
     const [message, setMessage] = useState<{ message: string, color: any }>({ message: '', color: '' });
-
-    useEffect(() => {
-        function start() {
-            gapi.client.init({
-                clientId: CLIENT_ID,
-                scope: ""
-            })
-        };
-        gapi.load('client:auth2', start);
-    })
 
     const {
         register,
@@ -51,7 +39,6 @@ const Login = () => {
             console.log("err in login " + err);
             setMessage({ message: ERROR_MESSAGE, color: ERROR_COLOR });
         }
-
     };
 
     return (
