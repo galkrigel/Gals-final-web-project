@@ -66,7 +66,7 @@ const PropertyCard = (props: Props) => {
                             </Typography>
                         </CardActionArea>
                         <Typography variant="subtitle1" color="text.secondary" component="div">
-                            contact: {props.property.contactName ?? ''}, {props.property.phoneNumber?.mobile ?? ''}
+                            country: {props.property.country ?? ''}, city: {props.property.city ?? ''}
                         </Typography>
                         <Typography variant="subtitle1" color="text.secondary" component="div">
                             rooms: {props.property.rooms ?? ''}, size: {props.property.area ?? ''}
