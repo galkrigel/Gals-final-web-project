@@ -5,7 +5,7 @@ import { EXTERNAL_API_LIMIT } from '../utils/consts';
 
 export const getPropertyFromExternalApi = async (propertyId: string) => {
     console.log("from external");
-    return fetch(`http://localhost:3001/external/properties?limit=${EXTERNAL_API_LIMIT}&offset=0`)
+    return fetch(`/external/properties?limit=${EXTERNAL_API_LIMIT}&offset=0`)
         .then(function (response) {
             return response.json()
         }).then(function (body) {
@@ -17,7 +17,7 @@ export const getPropertyFromExternalApi = async (propertyId: string) => {
 
 export const getPropertiesFromExternalApi = async () => {
     console.log("from external");
-    return fetch(`http://localhost:3001/external/properties?limit=${EXTERNAL_API_LIMIT}&offset=0`)
+    return fetch(`/external/properties?limit=${EXTERNAL_API_LIMIT}&offset=0`)
         .then(function (response) {
             return response.json()
         }).then(function (body) {
