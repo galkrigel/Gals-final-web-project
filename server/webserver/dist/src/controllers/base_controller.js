@@ -16,15 +16,15 @@ class BaseController {
     }
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("getAllStudents");
+            console.log("base: get all");
             try {
-                if (req.query.name) {
-                    const students = yield this.model.find({ name: req.query.name });
-                    res.send(students);
+                if (req.query.email) {
+                    const objects = yield this.model.find({ email: req.query.email });
+                    res.status(200).send(objects);
                 }
                 else {
-                    const students = yield this.model.find();
-                    res.send(students);
+                    const objects = yield this.model.find();
+                    res.status(200).send(objects);
                 }
             }
             catch (err) {
@@ -34,10 +34,12 @@ class BaseController {
     }
     getById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("getStudentById:" + req.params.id);
+            console.log("base: get by id: " + req.params.id);
             try {
-                const student = yield this.model.findById(req.params.id);
-                res.send(student);
+                const object = yield this.model.findById(req.params.id);
+                console.log("id: " + req.params.id);
+                console.log("object: " + object);
+                res.send(object);
             }
             catch (err) {
                 res.status(500).json({ message: err.message });
@@ -46,22 +48,45 @@ class BaseController {
     }
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("postStudent:" + req.body);
+            console.log("base: post: " + req.body);
             try {
                 const obj = yield this.model.create(req.body);
                 res.status(201).send(obj);
             }
             catch (err) {
-                console.log(err);
-                res.status(406).send("fail: " + err.message);
+                console.log("base post error: " + err);
+                res.status(406).send("base fail: " + err.message);
             }
         });
     }
     putById(req, res) {
-        res.send("put student by id: " + req.params.id);
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("base: put by id: " + req.params.id);
+            try {
+                const obj = yield this.model.findByIdAndUpdate(req.params.id, req.body, { new: true });
+                res.status(201).send(obj);
+            }
+            catch (err) {
+                console.log("base put error: " + err);
+                res.status(406).send("base fail: " + err.message);
+            }
+        });
     }
     deleteById(req, res) {
-        res.send("delete student by id: " + req.params.id);
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("base delete by id: " + req.params.id);
+            try {
+                const obj = yield this.model.findByIdAndDelete(req.params.id);
+                if (obj == null)
+                    res.status(400).send(obj);
+                else
+                    res.status(201).send(obj);
+            }
+            catch (err) {
+                console.log("base delete error: " + err);
+                res.status(401).send("base fail: " + err.message);
+            }
+        });
     }
 }
 exports.BaseController = BaseController;
