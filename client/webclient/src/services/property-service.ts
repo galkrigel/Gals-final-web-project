@@ -3,6 +3,8 @@ import { TProperty } from "../types/TProperty";
 import { apiDelete, apiGet, apiPost, apiPut, headersWithAuth } from "./api";
 import { EXTERNAL_API_LIMIT } from '../utils/consts';
 
+const base = "http://localhost:3001/";
+
 export const getPropertyFromExternalApi = async (propertyId: string) => {
     console.log("from external");
     return fetch(`/external/properties?limit=${EXTERNAL_API_LIMIT}&offset=0`)
@@ -17,7 +19,7 @@ export const getPropertyFromExternalApi = async (propertyId: string) => {
 
 export const getPropertiesFromExternalApi = async () => {
     console.log("from external");
-    return fetch(`/external/properties?limit=${EXTERNAL_API_LIMIT}&offset=0`)
+    return fetch(`${base}external/properties?limit=${EXTERNAL_API_LIMIT}&offset=0`)
         .then(function (response) {
             return response.json()
         }).then(function (body) {

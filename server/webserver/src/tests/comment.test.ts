@@ -38,8 +38,8 @@ beforeAll(async () => {
     app = await initApp();
     console.log("beforeAll");
     await Comment.deleteMany();
-    Property.deleteMany({ 'email': userForComment.email });
-    User.deleteMany({ 'ownerId': userForComment._id });
+    User.deleteMany({ 'email': userForComment.email });
+    Property.deleteMany({ 'ownerId': userForComment._id });
 
     const response = await request(app).post("/auth/register").send(userForComment);
     userForComment._id = response.body._id;
